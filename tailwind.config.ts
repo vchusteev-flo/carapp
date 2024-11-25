@@ -10,6 +10,9 @@ export default {
 	
   theme: {
   	extend: {
+      backgroundImage: {
+        bgMainFull: "url('../../public/carBggg.webp')",
+      },
   		colors: {
 				charcoal: {
           DEFAULT: '#384656',

@@ -62,14 +62,10 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white p-4 shadow-sm">
+      <header className="top-0 z-50 p-4 shadow-sm">
         <div className="flex items-center gap-4">
           <button className="p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="4" y1="12" x2="20" y2="12" />
-              <line x1="4" y1="6" x2="20" y2="6" />
-              <line x1="4" y1="18" x2="20" y2="18" />
-            </svg>
+            {/* <Image src="/carBgg.webp" alt="TopImage" width={100} height={100} /> */}
           </button>
           <h1 className="text-2xl font-bold text-orange-500">CarStore</h1>
           <div className="relative flex-1">
@@ -97,6 +93,9 @@ Passenger"
           </button>
         </div>
       </header>
+      {/* <Image src="/carBggg.webp" alt="TopImage" width={600} height={300} /> */}
+      <div className='bg-bgMainFull bg-cover bg-center bg-no-repeat max-w-screen-2xl min-h-screen'>
+      </div>
 
       {/* Main Content */}
       <main className="p-4">
@@ -137,7 +136,7 @@ Passenger"
             {recommendedCars.map((car) => (
               <div
                 key={car.id}
-                className="cursor-pointer overflow-hidden rounded-lg bg-white shadow"
+                className="cursor-pointer overflow-hidden rounded-lg "
                 onClick={() => handleCarClick(car.id)}
               >
                 <div className="relative">
@@ -182,7 +181,7 @@ Passenger"
             <Heart className="h-6 w-6" />
             <span className="mt-1 text-xs">Favorites</span>
           </Link>
-          <Link href="/profile" className="flex flex-col items-center text-gray-400">
+          <Link href="/auth/login" className="flex flex-col items-center text-gray-400">
             <User className="h-6 w-6" />
             <span className="mt-1 text-xs">Profile</span>
           </Link>
