@@ -23,11 +23,6 @@ export default function Home() {
     setIsClient(true)
   }, [])
 
-  const handleSearch = (filters: any) => {
-    console.log('Searching with filters:', filters)
-    // Implement your search logic here
-  }
-
   const handleCarClick = (id: number) => {
     router.push(`/car/${id}`)
   }
@@ -218,12 +213,7 @@ export default function Home() {
         </div>
       </main>
      
-      {/* Filter Modal */}
-      <FilterModal
-        isOpen={isFilterModalOpen}
-        onClose={() => setIsFilterModalOpen(false)}
-        onSearch={handleSearch}
-      />
+
     </div>
   )
 }

@@ -3,6 +3,8 @@
 import { Filter, HomeIcon, Search, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { FilterModal } from './filter-modal';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 
@@ -10,9 +12,17 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
 	const pathname = usePathname()
   const isAuthPage = pathname.includes('/auth/')
 
+	const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
+
   if (isAuthPage) {
     return <>{children}</>
   }
+
+  const handleSearch = (filters: any) => {
+    console.log('Searching with filters:', filters)
+    // Implement your search logic here
+  }
+
 	return (
 		<>
 			<header className='sticky top-0 z-50 bg-charcoal p-4 shadow-sm'>
@@ -31,7 +41,7 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
 						variant='ghost'
 						size='icon'
 						className='ml-2 bg-white'
-						// onClick={() => setIsFilterModalOpen(true)}
+						onClick={() => setIsFilterModalOpen(true)}
 					>
 						<Filter className='h-5 w-5' />
 					</Button>
@@ -60,6 +70,12 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
 					</Link>
 				</div>
 			</nav>
+			{/* Filter Modal */}
+      <FilterModal
+        isOpen={isFilterModalOpen}
+        onClose={() => setIsFilterModalOpen(false)}
+        onSearch={handleSearch}
+      />
 		</>
 	)
 }
