@@ -30,7 +30,7 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
 					<div className='relative flex-1'>
 						<Input
 							className='w-full rounded-full bg-gray-100 pl-10 pr-4'
-							placeholder='By price $'
+							placeholder='Enter price $'
 							type='number'
 							step={1000}
 						/>

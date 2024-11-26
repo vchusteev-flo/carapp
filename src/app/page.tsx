@@ -1,9 +1,6 @@
 'use client'
 
-import { FilterModal } from '@/components/filter-modal';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ChevronLeft, ChevronRight, Filter, Heart, HomeIcon, Search, User } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -16,7 +13,6 @@ import "slick-carousel/slick/slick.css";
 
 export default function Home() {
   const router = useRouter()
-  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
   const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
@@ -123,7 +119,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gunmetal-300 via-gunmetal-600 to-gunmetal-300">
+    <div className="min-h-screen bg-gradient-to-b from-charcoal via-charcoal-600 to-charcoal">
 
       {/* Main Content */}
       <main className="pb-20">

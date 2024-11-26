@@ -17,7 +17,7 @@ export default function BudgetPage() {
 
   return (
     
-    <div className="min-h-screen bg-gradient-to-br from-gunmetal-300 via-gunmetal-600 to-gunmetal-300">
+    <div className="min-h-screen bg-gradient-to-b from-charcoal via-charcoal-600 to-charcoal">
       <div className="p-4 pb-20">
         {/* <form onSubmit={handleSubmit} className="grid gap-4 bg-charcoal p-6 rounded-lg shadow-sm">
           <div className="grid gap-2">

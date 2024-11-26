@@ -12,19 +12,18 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white p-4">
+    <div className="min-h-screen text-white bg-charcoal p-4">
       <div className="mx-auto max-w-md space-y-8 pt-8">
         {/* Logo */}
         <div className="flex justify-center">
-          <div className="h-20 w-20 rounded-full bg-orange-500 text-center">
-            <span className="text-4xl leading-[80px] text-white">C</span>
+          <div className="h-20 w-20 rounded-full bg-white text-center">
+            <span className="text-4xl leading-[80px] text-black">CG</span>
           </div>
         </div>
 
         {/* Header */}
         <div className="text-center">
           <h1 className="text-2xl font-bold">Sign In</h1>
-          <p className="text-gray-500">Welcome back!</p>
         </div>
 
         {/* Form */}
@@ -34,7 +33,7 @@ export default function LoginPage() {
               <Input
                 type="email"
                 placeholder="Email address"
-                className="pl-10"
+                className="pl-10 bg-white text-black"
               />
               <svg
                 className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"
@@ -57,7 +56,7 @@ export default function LoginPage() {
               <Input
                 type="password"
                 placeholder="Password"
-                className="pl-10"
+                className="pl-10 bg-white text-black"
               />
               <svg
                 className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"
@@ -75,7 +74,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <Button type="submit" className="w-full bg-orange-500 hover:bg-orange-600">
+          <Button type="submit" className="w-full bg-united_nations_blue hover:bg-orange-600">
             Sign In
           </Button>
         </form>
@@ -86,21 +85,21 @@ export default function LoginPage() {
             <div className="w-full border-t border-gray-200" />
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="bg-white px-2 text-gray-500">Or</span>
+            <span className="bg-charcoal px-2 text-gray-500">Or</span>
           </div>
         </div>
 
         {/* Social Sign In */}
         <div className="text-center">
-          <p className="text-sm text-gray-500">Sign In with</p>
+          <p className="text-sm">Sign In with</p>
           <div className="mt-4 flex justify-center space-x-4">
-            <Button variant="outline" size="icon">
+            <Button variant="ghost" size="icon">
               <Facebook className="h-5 w-5" />
             </Button>
-            <Button variant="outline" size="icon">
+            <Button variant="ghost" size="icon">
               <Instagram className="h-5 w-5" />
             </Button>
-            <Button variant="outline" size="icon">
+            <Button variant="ghost" size="icon">
               <Youtube className="h-5 w-5" />
             </Button>
           </div>
@@ -108,7 +107,7 @@ export default function LoginPage() {
 
         {/* Sign Up Link */}
         <div className="text-center text-sm">
-          <p className="text-gray-500">
+          <p className="">
             Don't have an account?{' '}
             <Link href="/auth/signup" className="text-orange-500 hover:underline">
               Sign Up
