@@ -3,6 +3,8 @@
 import { Filter, HomeIcon, Search, User } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+// import router from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FilterModal } from './filter-modal';
 import { Button } from './ui/button';
@@ -10,6 +12,7 @@ import { Input } from './ui/input';
 
 export function NavWrapper({ children }: { children: React.ReactNode }) {
 	const pathname = usePathname()
+	const router = useRouter()
   const isAuthPage = pathname.includes('/auth/')
 
 	const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
@@ -19,8 +22,11 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
   }
 
   const handleSearch = (filters: any) => {
-    console.log('Searching with filters:', filters)
-    // Implement your search logic here
+		if (router) {
+			router.push('/budget');
+		} else {
+			console.error('Router is not mounted properly.');
+		}
   }
 
 	return (
@@ -54,7 +60,7 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
 			<nav className='fixed bottom-0 left-0 right-0 bg-charcoal shadow-t'>
 				<div className='flex items-center justify-around p-4'>
 					<Link href='/' className='flex flex-col items-center text-gray-200'>
-						<HomeIcon className='h-6 w-6' />
+						<HomeIcon className={`h-6 w-6`} color={`${pathname === '/' ? '#f97316' : 'white'}`} />
 						<span className='mt-1 text-xs'>Home</span>
 					</Link>
 					{/* <Link href="/favorites" className="flex flex-col items-center text-gray-400">
@@ -62,8 +68,8 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
 		<span className="mt-1 text-xs">Favorites</span>
 		</Link> */}
 					<Link
-						href='/auth/login'
-						className='flex flex-col items-center text-gray-400'
+						href='/auth/login' 
+						className={`flex flex-col items-center text-gray-400 ${pathname === 'auth/login' ? 'text-white' : ''}`}
 					>
 						<User className='h-6 w-6' />
 						<span className='mt-1 text-xs'>Profile</span>

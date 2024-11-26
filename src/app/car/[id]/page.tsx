@@ -3,11 +3,11 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
-  ArrowLeft,
-  ChevronLeft,
-  ChevronRight,
-  Share2,
-  Star,
+	ArrowLeft,
+	ChevronLeft,
+	ChevronRight,
+	Share2,
+	Star,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -37,7 +37,7 @@ export default function CarDetailsPage({ params }: { params: { id: string } }) {
 	}
 
 	return (
-		<div className='min-h-screen bg-charcoal'>
+		<div className='min-h-screen bg-gradient-to-b from-charcoal via-charcoal-600 to-charcoal text-white'>
 			{/* Header */}
 			{/* <header className="fixed top-0 z-50 flex w-full items-center justify-between bg-white p-4">
         </header> */}
@@ -118,14 +118,14 @@ export default function CarDetailsPage({ params }: { params: { id: string } }) {
 							<span className='font-semibold text-orange-500'>
 								{car.rating}
 							</span>
-							<span className='text-gray-500'>/5</span>
+							<span className=''>/5</span>
 						</div>
 					</div>
 
 					<div className='mb-4'>
-						<p className='text-gray-600'>
+						<p className=''>
 							{car.description}
-							<button className='ml-1 text-blue-500'>Read more...</button>
+							<button className='ml-1 text-orange-500'>Read more...</button>
 						</p>
 					</div>
 
@@ -135,14 +135,16 @@ export default function CarDetailsPage({ params }: { params: { id: string } }) {
 								{feature}
 							</Badge>
 						))}
-						<Button variant='ghost' className='text-gray-500'>
-							See All
+						<Button className='w-full bg-orange-500 hover:bg-orange-600'>
+							<Link href={`/inquiry/${params.id}`}>
+							Make inquiry
+							</Link>
 						</Button>
 					</div>
 
 					<div className='mb-6 grid grid-cols-2 gap-4'>
 						<div className='flex items-center gap-3'>
-							<div className='rounded-full bg-gray-100 p-2'>
+							<div className='rounded-full bg-united_nations_blue-400 p-2'>
 								<svg
 									width='24'
 									height='24'
@@ -164,7 +166,7 @@ export default function CarDetailsPage({ params }: { params: { id: string } }) {
 							</div>
 						</div>
 						<div className='flex items-center gap-3'>
-							<div className='rounded-full bg-gray-100 p-2'>
+							<div className='rounded-full bg-united_nations_blue-400 p-2'>
 								<svg
 									width='24'
 									height='24'
@@ -182,11 +184,11 @@ export default function CarDetailsPage({ params }: { params: { id: string } }) {
 							</div>
 							<div>
 								<p className='font-medium'>Car details</p>
-								<p className='text-sm text-gray-500'>(Model, year...)</p>
+								<p className='text-sm '>(Model, year...)</p>
 							</div>
 						</div>
 						<div className='flex items-center gap-3'>
-							<div className='rounded-full bg-gray-100 p-2'>
+							<div className='rounded-full bg-united_nations_blue-400 p-2'>
 								<svg
 									width='24'
 									height='24'
@@ -206,7 +208,7 @@ export default function CarDetailsPage({ params }: { params: { id: string } }) {
 							</div>
 						</div>
 						<div className='flex items-center gap-3'>
-							<div className='rounded-full bg-gray-100 p-2'>
+							<div className='rounded-full bg-united_nations_blue-400 p-2'>
 								<svg
 									width='24'
 									height='24'
@@ -224,17 +226,11 @@ export default function CarDetailsPage({ params }: { params: { id: string } }) {
 							<div>
 								<p className='font-medium'>EMI/Loan</p>
 							</div>
+
 						</div>
 					</div>
 				</div>
 			</main>
-
-			{/* Bottom Button */}
-			<div className='fixed bottom-0 left-0 right-0 p-4'>
-				<Button className='w-full bg-orange-500 hover:bg-orange-600'>
-					Buy Now
-				</Button>
-			</div>
 		</div>
 	)
 }

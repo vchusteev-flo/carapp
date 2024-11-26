@@ -3,20 +3,20 @@
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
 } from '@/components/ui/select';
 import { useState } from 'react';
 
@@ -27,6 +27,8 @@ interface FilterModalProps {
 }
 
 export function FilterModal({ isOpen, onClose, onSearch }: FilterModalProps) {
+	const [submited, setSubmited] = useState(false);
+
 	const [filters, setFilters] = useState({
 		title: '',
 		condition: 'new',
@@ -38,6 +40,7 @@ export function FilterModal({ isOpen, onClose, onSearch }: FilterModalProps) {
 	})
 
 	const handleSubmit = (e: React.FormEvent) => {
+		setSubmited(true)
 		e.preventDefault()
 		onSearch(filters)
 		onClose()
@@ -204,7 +207,7 @@ export function FilterModal({ isOpen, onClose, onSearch }: FilterModalProps) {
 						type='submit'
 						className='w-full bg-orange-500 hover:bg-orange-600'
 					>
-						Search
+							Search
 					</Button>
 				</form>
 			</DialogContent>
