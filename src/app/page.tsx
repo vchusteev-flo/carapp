@@ -129,34 +129,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gunmetal-300 via-gunmetal-600 to-gunmetal-300">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-charcoal p-4 shadow-sm">
-        <div className="flex items-center gap-4">
-          <div className="relative flex-1">
-            <Input
-              className="w-full rounded-full bg-gray-100 pl-10 pr-4"
-              placeholder="By price $"
-              type='number'
-              step={1000}
-              />
-            <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
-          </div>
-          <h1 className="text-xl font-bold text-white">ChoiceGear</h1>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="ml-2 bg-white"
-            onClick={() => setIsFilterModalOpen(true)}
-          >
-            <Filter className="h-5 w-5" />
-          </Button>
-        </div>
-      </header>
 
       {/* Main Content */}
       <main className="pb-20">
         {/* Car Carousel */}
-        <div className="mb-8">
+        <div className="mb-2">
           {isClient && (
             <div className="relative">
               <Slider {...settings}>
@@ -199,7 +176,7 @@ export default function Home() {
         <div className="px-4">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-xl text-white font-semibold">Recommended</h2>
-            <Link href="/search" className="text-gray-500">
+            <Link href="/budget" className="text-slate-300 underline">
               See all
             </Link>
           </div>
@@ -240,25 +217,7 @@ export default function Home() {
           </div>
         </div>
       </main>
-
-      {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-charcoal shadow-t">
-        <div className="flex items-center justify-around p-4">
-          <Link href="/" className="flex flex-col items-center text-gray-200">
-            <HomeIcon className="h-6 w-6" />
-            <span className="mt-1 text-xs">Home</span>
-          </Link>
-          <Link href="/favorites" className="flex flex-col items-center text-gray-400">
-            <Heart className="h-6 w-6" />
-            <span className="mt-1 text-xs">Favorites</span>
-          </Link>
-          <Link href="/auth/login" className="flex flex-col items-center text-gray-400">
-            <User className="h-6 w-6" />
-            <span className="mt-1 text-xs">Profile</span>
-          </Link>
-        </div>
-      </nav>
-
+     
       {/* Filter Modal */}
       <FilterModal
         isOpen={isFilterModalOpen}
