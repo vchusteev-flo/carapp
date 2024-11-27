@@ -1,13 +1,27 @@
 const {Client} = require('@notionhq/client');
-const { get } = require('http');
 
-const NOTION_API_KEY = "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"
-const NOTION_SERVICES_DATABASE_ID = "14be469d517880229833e5bd2d58b7f6"
-const NOTION_APPOINTMENTS_DATABASE_ID = ""
+// const NOTION_API_KEY = "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"
+// const NOTION_API_KEY = "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"
+// const NOTION_SERVICES_DATABASE_ID = "14be469d517880229833e5bd2d58b7f6"
+// const NOTION_APPOINTMENTS_DATABASE_ID = ""
+
+const NOTION_API_KEY = "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"
+const NOTION_SERVICES_DATABASE_ID = "14197767bb0a8090a59bc7ba15b5451d"
+const NOTION_APPOINTMENTS_DATABASE_ID = "14197767bb0a8026b997d556ac4c754d"
 
 const notion = new Client({auth: NOTION_API_KEY})
 
-console.log(notion, 'client')	
+async function list() {
+  console.log(await notion.databases.list())
+//  try {
+//    console.log(await notion.databases.retrieve({
+//     database_id: NOTION_APPOINTMENTS_DATABASE_ID,
+//    }), 'client')	
+//  } catch (err) {
+//   console.log(err)
+//  } 
+}
+list();
 
 // async function getDatabse() {
 // 	const response = await notion.databases.retrieve({
@@ -17,45 +31,45 @@ console.log(notion, 'client')
 // }
 
 
-async function main() {
-  // Create a new database
-  const newDatabase = await notion.databases.create({
-    parent: {
-      type: "page_id",
-      page_id: '149e469d5178808ca56de0958f47cf58',
-    },
-    title: [
-      {
-        type: "text",
-        text: {
-          content: "New database name",
-        },
-      },
-    ],
-    properties: {
-      // These properties represent columns in the database (i.e. its schema)
-      "Grocery item": {
-        type: "title",
-        title: {},
-      },
-      Price: {
-        type: "number",
-        number: {
-          format: "dollar",
-        },
-      },
-      "Last ordered": {
-        type: "date",
-        date: {},
-      },
-    },
-  })
+// async function main() {
+//   // Create a new database
+//   const newDatabase = await notion.databases.create({
+//     parent: {
+//       type: "page_id",
+//       page_id: '149e469d5178808ca56de0958f47cf58',
+//     },
+//     title: [
+//       {
+//         type: "text",
+//         text: {
+//           content: "New database name",
+//         },
+//       },
+//     ],
+//     properties: {
+//       // These properties represent columns in the database (i.e. its schema)
+//       "Grocery item": {
+//         type: "title",
+//         title: {},
+//       },
+//       Price: {
+//         type: "number",
+//         number: {
+//           format: "dollar",
+//         },
+//       },
+//       "Last ordered": {
+//         type: "date",
+//         date: {},
+//       },
+//     },
+//   })
 
-  // Print the new database response
-  console.log(newDatabase)
-}
+//   // Print the new database response
+//   console.log(newDatabase)
+// }
 
-main()
+// main()
 
 // getDatabse()
 

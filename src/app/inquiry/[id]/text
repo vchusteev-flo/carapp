@@ -2,13 +2,27 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
+import axios from 'axios'
 
-async function handleInquiry(formData: FormData) {
-  'use server'
-  // Here you would typically send the inquiry to your backend
-  // which would then log it in Notion and send a Telegram notification
-  await new Promise(resolve => setTimeout(resolve, 2000)) // Simulating API call
-  redirect('/confirmation/' + formData.get('id'))
+export async function handleInquiry(formData: FormData) {
+  'use server';
+  try {
+    const response = await axios.post('https://tasty-bananas-tickle.loca.lt/inquiries', {
+      userId: 'UID1',
+      date: new Date(),
+      userName: 'SomeUserName',
+      carModel: 'mock car model',
+    });
+
+    console.log(response);
+    
+    // Perform server-side redirect
+    const id = formData.get('id') as string;
+    redirect(`/confirmation/${id}`);
+  } catch (error) {
+    console.error('Error submitting inquiry:', error);
+    throw new Error('Inquiry submission failed.');
+  }
 }
 
  export default function InquiryPage({ params }: { params: { id: string } }) {

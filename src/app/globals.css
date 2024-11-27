@@ -75,3 +75,14 @@ nextjs-portal {
   display: none; 
 }
 
+.user-data {
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+.user-data p {
+  margin: 5px 0;
+}
+

@@ -3,7 +3,7 @@ require("dotenv").config();
 const cors = require('cors'); // Import cors
 const express = require("express");
 
-const PORT = 3001;
+const PORT = 3003;
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const webAppUrl = process.env.WEB_APP_URL;
 

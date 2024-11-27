@@ -27,6 +27,7 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<head>
+				<script defer src="https://telegram.org/js/telegram-web-app.js"></script> 
 				<link
 					rel='stylesheet'
 					type='text/css'
@@ -44,6 +45,28 @@ export default function RootLayout({
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
 				<NavWrapper>{children}</NavWrapper>
+				{/* <h1>User Data</h1>
+    <div className="user-data">
+		<p><strong>ID:</strong> <span id="userId"></span></p>
+        <p><strong>Name:</strong> <span id="userFirstAndLast"></span></p>
+        <p><strong>Email:</strong> <span id="userName"></span></p>
+		<button id='button'>getUser</button>
+    </div>
+			<script> 
+		const app = window.Telegram.WebApp;
+        app.ready();
+        app.expand();
+
+        console.log(app.initDataUnsafe.user, 'unsafe user data');
+        console.log(app.initDataUnsafe, 'unsafe obj');
+        console.log(app, 'app obj');
+        
+        {/* const { first_name, last_name, username, id } = app.initDataUnsafe.user; */}
+        
+        {/* document.getElementById("userId").textContent = app.initDataUnsafe.user.id;
+        document.getElementById("userFirstAndLast").textContent = app.initDataUnsafe.user.first_name + ' ' + app.initDataUnsafe.user.last_name;
+        document.getElementById("userName").textContent = app.initDataUnsafe.user.username; */}
+    {/* </script>  */}
 			</body>
 		</html>
 	)

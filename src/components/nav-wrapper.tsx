@@ -13,7 +13,7 @@ import { Input } from './ui/input';
 export function NavWrapper({ children }: { children: React.ReactNode }) {
 	const pathname = usePathname()
 	const router = useRouter()
-  const isAuthPage = pathname.includes('/auth/')
+  	const isAuthPage = pathname.includes('/auth/')
 
 	const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
 
@@ -34,13 +34,15 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
 			<header className='sticky top-0 z-50 bg-charcoal p-4 shadow-sm'>
 				<div className='flex items-center gap-4'>
 					<div className='relative flex-1'>
-						<Input
-							className='w-full rounded-full bg-gray-100 pl-10 pr-4'
-							placeholder='Enter price $'
-							type='number'
-							step={1000}
-						/>
-						<Search className='absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400' />
+						<form onSubmit={handleSearch}>
+							<Input
+								className='w-full rounded-full bg-gray-100 pl-10 pr-4'
+								placeholder='Enter price $'
+								type='number'
+								step={1000}
+							/>
+							<Search className='absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400' />
+						</form>
 					</div>
 					<h1 className='text-xl font-bold text-white'>ChoiceGear</h1>
 					<Button
