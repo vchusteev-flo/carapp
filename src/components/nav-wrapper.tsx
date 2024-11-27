@@ -21,7 +21,7 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
     return <>{children}</>
   }
 
-  const handleSearch = (filters: any) => {
+  const handleSearch = () => {
 		if (router) {
 			router.push('/budget');
 		} else {

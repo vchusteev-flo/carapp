@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Make sure this line is added <script src="https://telegram.org/js/telegram-web-app.js"></script> -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .user-data {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .user-data p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Data</h1>
+    <div class="user-data">
+		<p><strong>ID:</strong> <span id="userId"></span></p>
+        <p><strong>Name:</strong> <span id="userFirstAndLast"></span></p>
+        <p><strong>Email:</strong> <span id="userName"></span></p>
+		<button id='button'>getUser</button>
+    </div>
+
+    <script>
+        const app = window.Telegram.WebApp;
+        // Call as soon as your page is ready for the user to see
+        app.ready();
+        // Expand your web app to full screen
+        app.expand();
+
+        console.log(app.initDataUnsafe.user, 'unsafe user data');
+        console.log(app.initDataUnsafe, 'unsafe obj');
+        console.log(app, 'app obj');
+        
+        const { first_name, last_name, username, id } = app.initDataUnsafe.user;
+        
+        document.getElementById("userId").textContent = id;
+        document.getElementById("userFirstAndLast").textContent = first_name + ' ' + last_name;
+        document.getElementById("userName").textContent = username;
+    </script>
+</body>
+</html>

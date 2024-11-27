@@ -18,7 +18,7 @@ export default function ConfirmationPage({ params }: { params: { id: string } })
           </CardHeader>
           <CardContent className="px-6">
             <p className="text-gray-700 text-center leading-relaxed">
-              Thank you for your interest. We'll calculate the delivery costs and update you on the status via the app and Telegram.
+              Thank you for your interest. We&apos;ll calculate the delivery costs and update you on the status via the app and Telegram.
             </p>
           </CardContent>
           <CardFooter className="flex justify-center pb-6">

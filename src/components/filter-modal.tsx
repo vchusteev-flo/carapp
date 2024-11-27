@@ -23,12 +23,10 @@ import { useState } from 'react';
 interface FilterModalProps {
 	isOpen: boolean
 	onClose: () => void
-	onSearch: (filters: any) => void
+	onSearch: () => void
 }
 
 export function FilterModal({ isOpen, onClose, onSearch }: FilterModalProps) {
-	const [submited, setSubmited] = useState(false);
-
 	const [filters, setFilters] = useState({
 		title: '',
 		condition: 'new',
@@ -40,9 +38,8 @@ export function FilterModal({ isOpen, onClose, onSearch }: FilterModalProps) {
 	})
 
 	const handleSubmit = (e: React.FormEvent) => {
-		setSubmited(true)
 		e.preventDefault()
-		onSearch(filters)
+		onSearch()
 		onClose()
 	}
 

@@ -26,7 +26,7 @@ async function handleInquiry(formData: FormData) {
             <CardDescription className="text-center text-gray-600">Confirm your interest in this car</CardDescription>
           </CardHeader>
           <CardContent className="px-6">
-            <p className="text-gray-700 text-center leading-relaxed">By making an inquiry, we'll calculate the delivery costs and update you on the status.</p>
+            <p className="text-gray-700 text-center leading-relaxed">By making an inquiry, we&apos;ll calculate the delivery costs and update you on the status.</p>
           </CardContent>
           <CardFooter className="flex justify-center pb-6">
             <form action={handleInquiry}>

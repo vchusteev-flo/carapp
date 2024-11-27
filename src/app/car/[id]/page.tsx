@@ -14,6 +14,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 export default function CarDetailsPage({ params }: { params: { id: string } }) {
+	const { id } = params
+
 	const [activeImage, setActiveImage] = useState(0)
 
 	// Mock data - in real app, fetch this based on params.id

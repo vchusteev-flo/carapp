@@ -58,7 +58,13 @@ export default function Home() {
     }
   ]
 
-  const PrevArrow = (props: any) => {
+  interface ArrowProps {
+    onClick?: () => void;
+    currentSlide?: number;
+    slideCount?: number;
+  }
+  
+  const PrevArrow = (props: ArrowProps) => {
     const { onClick } = props
     return (
       <button
@@ -69,8 +75,7 @@ export default function Home() {
       </button>
     )
   }
-
-  const NextArrow = (props: any) => {
+  const NextArrow = (props: ArrowProps) => {
     const { onClick } = props
     return (
       <button
