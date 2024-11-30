@@ -1,137 +1,76 @@
-const {Client} = require('@notionhq/client');
+const { Client } = require('@notionhq/client');
+require('dotenv').config();
 
-// const NOTION_API_KEY = "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"
-// const NOTION_API_KEY = "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"
-// const NOTION_SERVICES_DATABASE_ID = "14be469d517880229833e5bd2d58b7f6"
-// const NOTION_APPOINTMENTS_DATABASE_ID = ""
+// Initialize Notion client
+const notion = new Client({ auth: process.env.NOTION_API_KEY });
+const NOTION_CAR_INQUIRIES_DATABASE_ID = process.env.NOTION_CAR_INQUIRIES_DATABASE_ID;
 
-const NOTION_API_KEY = "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"
-const NOTION_SERVICES_DATABASE_ID = "14197767bb0a8090a59bc7ba15b5451d"
-const NOTION_APPOINTMENTS_DATABASE_ID = "14197767bb0a8026b997d556ac4c754d"
-
-const notion = new Client({auth: NOTION_API_KEY})
-
-async function list() {
-  console.log(await notion.databases.list())
-//  try {
-//    console.log(await notion.databases.retrieve({
-//     database_id: NOTION_APPOINTMENTS_DATABASE_ID,
-//    }), 'client')	
-//  } catch (err) {
-//   console.log(err)
-//  } 
-}
-list();
-
-// async function getDatabse() {
-// 	const response = await notion.databases.retrieve({
-// 		database_id: NOTION_SERVICES_DATABASE_ID,
-// 	})
-// 	console.log(response, 'response')
+// async function list() {
+//         console.log(await notion.databases.retrieve({
+//                 database_id: NOTION_CAR_INQUIRIES_DATABASE_ID,
+//         }))
 // }
 
+// list();
 
-// async function main() {
-//   // Create a new database
-//   const newDatabase = await notion.databases.create({
-//     parent: {
-//       type: "page_id",
-//       page_id: '149e469d5178808ca56de0958f47cf58',
-//     },
-//     title: [
-//       {
-//         type: "text",
-//         text: {
-//           content: "New database name",
-//         },
-//       },
-//     ],
-//     properties: {
-//       // These properties represent columns in the database (i.e. its schema)
-//       "Grocery item": {
-//         type: "title",
-//         title: {},
-//       },
-//       Price: {
-//         type: "number",
-//         number: {
-//           format: "dollar",
-//         },
-//       },
-//       "Last ordered": {
-//         type: "date",
-//         date: {},
-//       },
-//     },
-//   })
+module.exports.getCarInquiries = async () => {
+    try {
+        const response = await notion.databases.query({
+            database_id: NOTION_CAR_INQUIRIES_DATABASE_ID,
+        });
 
-//   // Print the new database response
-//   console.log(newDatabase)
-// }
+        return response.results.map((page) => ({
+            id: page.id,
+            name: page.properties.Name?.title?.[0]?.plain_text || "No Name",
+            phone: page.properties.Phone?.phone_number || "No Phone",
+            email: page.properties.Email?.email || "No Email",
+            carOptions: page.properties['Car Options']?.rich_text?.[0]?.plain_text?.split(',') || [],
+        }));
+    } catch (error) {
+        console.error('Failed to fetch car inquiries:', error.message);
+        throw new Error('Unable to fetch car inquiries');
+    }
+};
 
-// main()
-
-// getDatabse()
-
-
-module.exports.getServices = async () => {
-    const response = await notion.databases.query({
-        database_id: NOTION_SERVICES_DATABASE_ID,
-    })
-		console.log(response, 'response')
-
-    // return response.results.map((page) => ({
-    //     id: page.id,
-    //     name: page.properties.Name.title[0].plain_text,
-    //     description: page.properties.Description.rich_text[0].plain_text,
-    //     price: page.properties.Price.number,
-    //     image: page.properties.Image.files[0].file.url,
-    // }))
-}
-
-module.exports.getScheduledAppointments = async () => {
-    const response = await notion.databases.query({
-        database_id: NOTION_APPOINTMENTS_DATABASE_ID,
-        filter: {
-            property: 'Status',
-            select: {
-                equals: 'Scheduled',
+module.exports.createCarInquiry = async ({ name, phone, email, carOptions }) => {
+    try {
+        const response = await notion.pages.create({
+            parent: { database_id: NOTION_CAR_INQUIRIES_DATABASE_ID },
+            properties: {
+                Name: { 
+                    title: [{ text: { content: name } }] 
+                },
+                Phone: { 
+                    phone_number: phone 
+                },
+                Email: { 
+                    email: email 
+                },
+                'Car Options': { 
+                    rich_text: [{ text: { content: carOptions.join(',') } }] 
+                },
             },
-        },
-    })
+        });
 
-    return response.results.map((page) => ({
-        id: page.id,
-        serviceName: page.properties.ServiceName.title[0].plain_text,
-        date: page.properties.Date.date.start,
-    }))
-}
+        return response;
+    } catch (error) {
+        console.error('Failed to create car inquiry:', error.message);
+        throw new Error('Unable to create car inquiry');
+    }
+};
 
-module.exports.createAppointment = async ({serviceId, formData, selectedDate, selectedTime}) => {
-    const services = await this.getServices();
-    const service = services.find((service) => service.id === serviceId);
-    const dataForSend = {
-        parent: {database_id: NOTION_APPOINTMENTS_DATABASE_ID},
-        properties: {
-            ServiceName: {title: [{text: {content: service.name}}]},
-            Make: {rich_text: [{text: {content: formData.make}}]},
-            Model: {rich_text: [{text: {content: formData.model}}]},
-            Year: {number: parseInt(formData.year)},
-            Color: {rich_text: [{text: {content: formData.color}}]},
-            Comment: {rich_text: [{text: {content: formData.comment || ""}}]},
-            Date: {date: {start: `${selectedDate}T${selectedTime}:00.000Z`}},
-            Status: {select: {name: 'Scheduled'}},
-            ServiceID: {rich_text: [{text: {content: serviceId}}]},
-        },
-    };
-    await notion.pages.create(dataForSend)
-}
+module.exports.deleteCarInquiry = async (id) => {
+    try {
+        await notion.pages.update({
+            page_id: id,
+            properties: {
+                Status: { select: { name: 'Deleted' } },
+            },
+        });
 
-module.exports.deleteAppointment = async (id) => {
-    await notion.pages.update({
-        page_id: id,
-        properties: {
-            Status: {select: {name: 'Deleted'}}
-        }
-    })
-}
+        return { success: true, message: 'Inquiry deleted successfully' };
+    } catch (error) {
+        console.error('Failed to delete car inquiry:', error.message);
+        throw new Error('Unable to delete car inquiry');
+    }
+};

@@ -1,7 +1,8 @@
-const express = require('express')
-const cors = require('cors')
-const {getServices, createAppointment, getScheduledAppointments, deleteAppointment} = require("./notion");
-const app = express()
+const express = require('express');
+const cors = require('cors');
+const { getCarInquiries, createCarInquiry, deleteCarInquiry } = require('./notion');
+
+const app = express();
 
 app.use(cors({
     origin: '*',
@@ -9,30 +10,44 @@ app.use(cors({
     allowedHeaders: '*',
 }));
 
-app.use(express.json())
-const port = 3002
+app.use(express.json());
+const port = 3002;
 
-app.get('/getServices', async (req, res) => {
-    const services = await getServices();
-    return res.json(services);
-})
+// Endpoint to fetch car inquiries
+app.get('/getCarInquiries', async (req, res) => {
+    try {
+        const inquiries = await getCarInquiries();
+        return res.json(inquiries);
+    } catch (error) {
+        console.error('Error fetching car inquiries:', error);
+        return res.status(500).json({ message: 'Failed to fetch car inquiries' });
+    }
+});
 
-app.post('/createAppointment', async (req, res) => {
-    const appointment = req.body;
-    await createAppointment(appointment);
-    return res.json({success: true});
-})
+// Endpoint to create a new car inquiry
+app.post('/createCarInquiry', async (req, res) => {
+    try {
+        const inquiryData = req.body;
+        await createCarInquiry(inquiryData);
+        return res.json({ success: true });
+    } catch (error) {
+        console.error('Error creating car inquiry:', error);
+        return res.status(500).json({ message: 'Failed to create car inquiry' });
+    }
+});
 
-app.get('/getScheduledAppointments', async (req, res) => {
-    const appointments = await getScheduledAppointments();
-    return res.json(appointments);
-})
-
-app.delete('/appointment/:appointmentId', async (req, res) => {
-    await deleteAppointment(req.params.appointmentId);
-    return res.json({success: true});
-})
+// Endpoint to delete a car inquiry
+app.delete('/carInquiry/:inquiryId', async (req, res) => {
+    try {
+        const inquiryId = req.params.inquiryId;
+        await deleteCarInquiry(inquiryId);
+        return res.json({ success: true });
+    } catch (error) {
+        console.error('Error deleting car inquiry:', error);
+        return res.status(500).json({ message: 'Failed to delete car inquiry' });
+    }
+});
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+    console.log(`Car Inquiries app listening on port ${port}`);
+});
