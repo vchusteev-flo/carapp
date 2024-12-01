@@ -1,121 +1,62 @@
 'use client'
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Facebook, Instagram, Youtube } from 'lucide-react';
+import { TelegramContext } from '@/providers/telegram';
+import { ArrowLeft, Hash, MessageCircle, User, UserCircle } from 'lucide-react';
 import Link from 'next/link';
+import { useContext } from 'react';
 
 export default function LoginPage() {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle login logic here
-  }
+  const telegram = useContext(TelegramContext)
+  const userData = telegram?.initDataUnsafe?.user
 
   return (
-    <div className="min-h-screen text-white bg-charcoal p-4">
-      <div className="mx-auto max-w-md space-y-8 pt-8">
-        {/* Logo */}
-        <div className="flex justify-center">
-          <div className="h-20 w-20 rounded-full bg-white text-center">
-            <span className="text-4xl leading-[80px] text-black">CG</span>
-          </div>
-        </div>
-
-        {/* Header */}
-        <div className="text-center">
-          <h1 className="text-2xl font-bold">Sign In</h1>
-        </div>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <div className="relative">
-              <Input
-                type="email"
-                placeholder="Email address"
-                className="pl-10 bg-white text-black"
-              />
-              <svg
-                className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <div className="relative">
-              <Input
-                type="password"
-                placeholder="Password"
-                className="pl-10 bg-white text-black"
-              />
-              <svg
-                className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                />
-              </svg>
-            </div>
-          </div>
-
-          <Button type="submit" className="w-full bg-united_nations_blue hover:bg-orange-600">
-            Sign In
-          </Button>
-        </form>
-
-        {/* Divider */}
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-200" />
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="bg-charcoal px-2 text-gray-500">Or</span>
-          </div>
-        </div>
-
-        {/* Social Sign In */}
-        <div className="text-center">
-          <p className="text-sm">Sign In with</p>
-          <div className="mt-4 flex justify-center space-x-4">
-            <Button variant="ghost" size="icon">
-              <Facebook className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" size="icon">
-              <Instagram className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" size="icon">
-              <Youtube className="h-5 w-5" />
-            </Button>
-          </div>
-        </div>
-
-        {/* Sign Up Link */}
-        <div className="text-center text-sm">
-          <p className="">
-          Don&apos;t have an account?{' '}
-            <Link href="/auth/signup" className="text-orange-500 hover:underline">
-              Sign Up
-            </Link>
-          </p>
-        </div>
+    <div className='min-h-screen pb-20 bg-gradient-to-b from-charcoal via-charcoal-600 to-charcoal text-white'>
+      <div className='flex justify-between p-4'>
+        <Link href='/' className='rounded-full p-2'>
+          <ArrowLeft className='h-6 w-6' color='white' />
+        </Link>
       </div>
+
+      <main className='p-4'>
+        <div className='flex items-center gap-4 mb-8'>
+          <div className='rounded-full bg-united_nations_blue-400 p-3'>
+            <UserCircle className='h-8 w-8' />
+          </div>
+          <h1 className='text-2xl font-bold'>Telegram Profile</h1>
+        </div>
+
+        <div className='space-y-4'>
+          <div className='flex items-center gap-3 bg-united_nations_blue-400/10 p-4 rounded-lg'>
+            <div className='rounded-full bg-united_nations_blue-400 p-2'>
+              <User className='h-6 w-6' />
+            </div>
+            <div>
+              <p className='font-medium'>Name</p>
+              <p className='text-sm text-gray-300'>{userData?.first_name || 'Loading...'}</p>
+            </div>
+          </div>
+
+          <div className='flex items-center gap-3 bg-united_nations_blue-400/10 p-4 rounded-lg'>
+            <div className='rounded-full bg-united_nations_blue-400 p-2'>
+              <MessageCircle className='h-6 w-6' />
+            </div>
+            <div>
+              <p className='font-medium'>Username</p>
+              <p className='text-sm text-gray-300'>@{userData?.username || 'Loading...'}</p>
+            </div>
+          </div>
+
+          <div className='flex items-center gap-3 bg-united_nations_blue-400/10 p-4 rounded-lg'>
+            <div className='rounded-full bg-united_nations_blue-400 p-2'>
+              <Hash className='h-6 w-6' />
+            </div>
+            <div>
+              <p className='font-medium'>Telegram ID</p>
+              <p className='text-sm text-gray-300'>{userData?.id || 'Loading...'}</p>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   )
 }
-

@@ -1,7 +1,7 @@
+import { NavWrapper } from '@/components/nav-wrapper';
+import { TelegramProvider } from '@/providers/telegram';
 import localFont from 'next/font/local';
 import './globals.css';
-
-import { NavWrapper } from '@/components/nav-wrapper';
 
 const geistSans = localFont({
 	src: './fonts/GeistVF.woff',
@@ -44,29 +44,23 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<NavWrapper>{children}</NavWrapper>
-				{/* <h1>User Data</h1>
-    <div className="user-data">
-		<p><strong>ID:</strong> <span id="userId"></span></p>
-        <p><strong>Name:</strong> <span id="userFirstAndLast"></span></p>
-        <p><strong>Email:</strong> <span id="userName"></span></p>
-		<button id='button'>getUser</button>
-    </div>
-			<script> 
-		const app = window.Telegram.WebApp;
-        app.ready();
-        app.expand();
+				<TelegramProvider>
+					<NavWrapper>{children}</NavWrapper>
+				</TelegramProvider>
 
-        console.log(app.initDataUnsafe.user, 'unsafe user data');
-        console.log(app.initDataUnsafe, 'unsafe obj');
-        console.log(app, 'app obj');
-        
-        {/* const { first_name, last_name, username, id } = app.initDataUnsafe.user; */}
-        
-        {/* document.getElementById("userId").textContent = app.initDataUnsafe.user.id;
-        document.getElementById("userFirstAndLast").textContent = app.initDataUnsafe.user.first_name + ' ' + app.initDataUnsafe.user.last_name;
-        document.getElementById("userName").textContent = app.initDataUnsafe.user.username; */}
-    {/* </script>  */}
+				<script dangerouslySetInnerHTML={{
+					__html: `
+						if (typeof window !== 'undefined' && window.Telegram) {
+							const app = window.Telegram.WebApp;
+							app.ready();
+							app.expand();
+
+							console.log(app.initDataUnsafe.user, 'unsafe user data');
+							console.log(app.initDataUnsafe, 'unsafe obj');
+							console.log(app, 'app obj');
+						}
+					`
+				}} />
 			</body>
 		</html>
 	)
