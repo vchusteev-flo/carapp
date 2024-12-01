@@ -25,7 +25,7 @@ export default async function CarDetailsPage( props:  { params : pageProps} ) {
 	}
 
 	return (
-		<div className='min-h-screen bg-gradient-to-b from-charcoal via-charcoal-600 to-charcoal text-white'>
+		<div className='min-h-screen pb-20 bg-gradient-to-b from-charcoal via-charcoal-600 to-charcoal text-white'>
 			{/* Header */}
 			{/* <header className="fixed top-0 z-50 flex w-full items-center justify-between bg-white p-4">
         </header> */}
