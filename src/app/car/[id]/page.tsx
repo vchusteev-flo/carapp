@@ -1,23 +1,17 @@
-'use client'
-
+import { ImageCarousel } from '@/components/image-carousel';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
 	ArrowLeft,
-	ChevronLeft,
-	ChevronRight,
 	Share2,
-	Star,
+	Star
 } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 
-export default function CarDetailsPage({ params }: { params: { id: string } }) {
-	const { id } = params
+type pageProps = Promise<{ id: string }>
 
-	const [activeImage, setActiveImage] = useState(0)
-
+export default async function CarDetailsPage( props:  { params : pageProps} ) {
+	const { id } = await props.params;
 	// Mock data - in real app, fetch this based on params.id
 	const car = {
 		name: 'Audi A3',
@@ -28,14 +22,6 @@ export default function CarDetailsPage({ params }: { params: { id: string } }) {
 		features: ['Autopilot', '360° Camera'],
 		images: ['/a3.jpg', '/a3side.webp', '/a3front.webp'],
 		location: 'Berlin, Germany',
-	}
-
-	const nextImage = () => {
-		setActiveImage(prev => (prev + 1) % car.images.length)
-	}
-
-	const previousImage = () => {
-		setActiveImage(prev => (prev - 1 + car.images.length) % car.images.length)
 	}
 
 	return (
@@ -54,59 +40,7 @@ export default function CarDetailsPage({ params }: { params: { id: string } }) {
 
 			{/* Main Content */}
 			<main className=''>
-				{/* Image Carousel */}
-				<div className='relative h-48 w-full'>
-					<Image
-						src={car.images[activeImage]}
-						alt={car.name}
-						fill
-						className='object-contain'
-					/>
-					<button
-						onClick={previousImage}
-						className='absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2'
-					>
-						<ChevronLeft className='h-6 w-6' />
-					</button>
-					<button
-						onClick={nextImage}
-						className='absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2'
-					>
-						<ChevronRight className='h-6 w-6' />
-					</button>
-					<div className='absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2'>
-						{car.images.map((_, index) => (
-							<button
-								key={index}
-								onClick={() => setActiveImage(index)}
-								className={`h-2 w-2 rounded-full ${
-									index === activeImage ? 'bg-white' : 'bg-white/50'
-								}`}
-							/>
-						))}
-					</div>
-				</div>
-
-				{/* Thumbnails */}
-				<div className='flex gap-2 p-4'>
-					{car.images.map((image, index) => (
-						<button
-							key={index}
-							onClick={() => setActiveImage(index)}
-							className={`relative h-20 w-20 overflow-hidden rounded-lg ${
-								index === activeImage ? 'ring-2 ring-orange-500' : ''
-							}`}
-						>
-							<Image
-								src={image}
-								alt={`${car.name} view ${index + 1}`}
-								fill
-								className='object-cover'
-							/>
-						</button>
-					))}
-				</div>
-
+			<ImageCarousel images={car.images} name={car.name} />
 				{/* Car Details */}
 				<div className='p-4'>
 					<div className='mb-4'>
@@ -138,7 +72,7 @@ export default function CarDetailsPage({ params }: { params: { id: string } }) {
 							</Badge>
 						))}
 						<Button className='w-full bg-orange-500 hover:bg-orange-600'>
-							<Link href={`/inquiry/${params.id}`}>
+							<Link href={`/inquiry/${id}`}>
 							Make inquiry
 							</Link>
 						</Button>

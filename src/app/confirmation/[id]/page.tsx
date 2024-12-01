@@ -3,7 +3,11 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function ConfirmationPage({ params }: { params: { id: string } }) {
+
+type pageProps = Promise<{ id: string }>
+
+export default async function ConfirmationPage( props:  { params : pageProps} ) {
+  const { id } = await props.params;
   return (
     <div className="flex min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-charcoal via-charcoal-600 to-charcoal">
       <div className="max-w-md w-full">
@@ -13,7 +17,7 @@ export default function ConfirmationPage({ params }: { params: { id: string } })
             <CardContent>
               <Image src='/a3.jpg' alt="Car Image" width={300} height={300} />
             </CardContent>
-            <CardTitle className="text-2xl text-center text-gray-900">Car Model {params.id}</CardTitle>
+            <CardTitle className="text-2xl text-center text-gray-900">Car Model {id}</CardTitle>
             <CardDescription className="text-center text-gray-600">Your inquiry has been received</CardDescription>
           </CardHeader>
           <CardContent className="px-6">

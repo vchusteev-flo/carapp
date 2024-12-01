@@ -3,6 +3,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 
+type pageProps = Promise<{ id: string }>
+
 async function handleInquiry(formData: FormData) {
   'use server'
   // Here you would typically send the inquiry to your backend
@@ -11,8 +13,8 @@ async function handleInquiry(formData: FormData) {
   redirect('/confirmation/' + formData.get('id'))
 }
 
- export default function InquiryPage({ params }: { params: { id: string } }) {
-  const { id } = params
+ export default async function InquiryPage(props:  { params : pageProps}) {
+  const { id } = await props.params;
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-charcoal via-charcoal-600 to-charcoal">
       <div className="max-w-3xl mx-auto">
@@ -30,7 +32,7 @@ async function handleInquiry(formData: FormData) {
           </CardContent>
           <CardFooter className="flex justify-center pb-6">
             <form action={handleInquiry}>
-              <input type="hidden" name="id" value={params.id} />
+              <input type="hidden" name="id" value={id} />
               <Button type="submit" className="px-8 py-2 bg-orange-500 text-white font-medium rounded-lg shadow-md hover:shadow-lg">
                 Make an Inquiry
               </Button>
