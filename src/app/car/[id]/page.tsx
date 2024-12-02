@@ -9,7 +9,7 @@ import {
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-type pageProps = Promise<{ id: string, ID: string }>
+type pageProps = Promise<{ id: string }>
 
 async function getCarData(id: string) {
 	const response = await notionClient.getCarInquiryById(id);
@@ -19,8 +19,15 @@ async function getCarData(id: string) {
   return response.json();
 }
 
-export default async function CarDetailsPage( props:  { params : pageProps} ) {
-	const { id, ID } = await props.params;
+export default async function CarDetailsPage({ 
+  params,
+  searchParams 
+}: { 
+  params: pageProps;
+  searchParams: { ID: string };
+}) {
+  const { id } = await params;
+  const ID = searchParams.ID;
 
 	const carResponse = await getCarData(ID);
 
