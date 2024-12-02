@@ -1,16 +1,29 @@
 import { ImageCarousel } from '@/components/image-carousel';
 import { InquiryForm } from '@/components/inquiry-form';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { notionClient } from '@/lib/notion';
 import {
-	ArrowLeft,
-	Share2
+	ArrowLeft
 } from 'lucide-react';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
-type pageProps = Promise<{ id: string }>
+type pageProps = Promise<{ id: string, ID: string }>
+
+async function getCarData(id: string) {
+	const response = await notionClient.getCarInquiryById(id);
+  if (!response.ok) {
+    notFound();
+  }
+  return response.json();
+}
 
 export default async function CarDetailsPage( props:  { params : pageProps} ) {
-	const { id } = await props.params;
+	const { id, ID } = await props.params;
+
+	const carResponse = await getCarData(ID);
+
 	// Mock data - in real app, fetch this based on params.id
 	const car = {
 		name: 'Audi A3',
@@ -23,6 +36,7 @@ export default async function CarDetailsPage( props:  { params : pageProps} ) {
 		location: 'Berlin, Germany',
 	}
 
+
 	return (
 		<div className='min-h-screen pb-20 bg-gradient-to-b from-charcoal via-charcoal-600 to-charcoal text-white'>
 			{/* Header */}
@@ -32,9 +46,6 @@ export default async function CarDetailsPage( props:  { params : pageProps} ) {
 				<Link href='/' className='rounded-full p-2'>
 					<ArrowLeft className='h-6 w-6' color='white' />
 				</Link>
-				<button className='rounded-full p-2'>
-					<Share2 className='h-6 w-6' color='white'/>
-				</button>
 			</div>
 
 			{/* Main Content */}
@@ -45,6 +56,8 @@ export default async function CarDetailsPage( props:  { params : pageProps} ) {
 					<div className='mb-4'>
 						<h1 className='text-2xl font-bold'>{car.name}</h1>
 						<p className='text-lg font-semibold'>{car.price}€</p>
+						<p>2024</p>
+						<p>120 000 km</p>
 					</div>
 
 					{/* <div className='mb-4 flex items-center gap-2'>
@@ -56,6 +69,41 @@ export default async function CarDetailsPage( props:  { params : pageProps} ) {
 							<span className=''>/5</span>
 						</div>
 					</div> */}
+
+					<div className="space-y-6 mt-6">
+            <div>
+              <h2 className="text-xl font-semibold mb-2">
+                Данные о расчете стоимости:
+              </h2>
+              <p>Локация: Германия</p>
+              <p>Стоимость под ключ: {carResponse.finalPrice}$</p>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-semibold mb-2">
+                Комментарий продавца услуги:
+              </h2>
+              <p className="text-muted-foreground">
+                Lorem ipsum dolor sit amet, consectetur facilisi interdum nibh blandit
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-semibold mb-2">Описание:</h2>
+              <p className="text-muted-foreground">
+                Lorem ipsum dolor sit amet, consectetur facilisi interdum nibh blandit
+              </p>
+            </div>
+
+            <div className="flex gap-2 flex-wrap">
+              <Badge variant="secondary">Autopilot</Badge>
+              <Badge variant="secondary">360° Camera</Badge>
+              <Badge variant="secondary">Панорама</Badge>
+              <Button variant="link" className="text-orange-500 p-0">
+                See All
+              </Button>
+            </div>
+						</div>
 
 					<div className='mb-4'>
 						<p className=''>

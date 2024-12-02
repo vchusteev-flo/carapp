@@ -5,6 +5,7 @@ import Link from "next/link";
 interface OrderCardProps {
   order: {
     id?: number
+    ID: string,
     image: string
     make?: string
     model?: string
@@ -16,7 +17,7 @@ interface OrderCardProps {
 
 export function OrderCard({ order }: OrderCardProps) {
   return (
-    <Link href={`/car/${order.id}`}>
+    <Link href={`/car/${order.id}?id=${order.ID}`}>
       <Card className="overflow-hidden">
         <CardContent className="p-0">
           <div className="flex gap-4">
@@ -29,7 +30,7 @@ export function OrderCard({ order }: OrderCardProps) {
               />
             </div>
             <div className="py-4 pr-4">
-              <h3 className="font-medium mb-1">Заказ #{order.id}</h3>
+              <h3 className="font-medium mb-1">Заказ #{order.ID}</h3>
               <div className="space-y-1 text-sm text-muted-foreground">
                 <p>
                   <span className="inline-block w-32">Марка:</span>

@@ -33,7 +33,7 @@ module.exports.getCarInquiries = async () => {
     }
 };
 
-module.exports.getCarInquiryById = async (pageId) => {
+module.exports.getCarInquiryById = async () => {
     try {
         const response = await notion.pages.retrieve({ page_id: pageId });
         return {

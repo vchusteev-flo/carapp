@@ -56,12 +56,16 @@ export const notionClient = {
 		return response.data;
   },
 
-  deleteCarInquiry: async (id: number) => {
+  deleteCarInquiry: async (id: string) => {
     const response = await api.delete(`/carInquiry/${id}`);
 		return response.data;
   },
-  getCarInquiriesByTelegramId: async (id: number) => {
+  getCarInquiriesByTelegramId: async (id: string) => {
     const response = await api.get(`/carInquiry/telegram/${id}`);
 		return response.data;
   },
+  getCarInquiryById: async (id: string) => {
+    const response = await api.get(`/carInquiry/${id}`);
+		return response.data;
+  }
 }

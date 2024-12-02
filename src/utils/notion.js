@@ -26,10 +26,17 @@ export const getCarInquiries = async () => {
   }
 };
 // Fetch a specific car inquiry by ID
-export const getCarInquiryById = async (pageId) => {
+export const getCarInquiryById = async (ID) => {
   try {
-    const response = await notion.pages.retrieve({ page_id: pageId });
-    // Map response to a readable format
+    const response = await notion.databases.query({
+      database_id: NOTION_CAR_INQUIRIES_DATABASE_ID,
+      filter: {
+        property: 'ID',
+        rich_text: {
+          equals: ID,
+        },
+      },
+    });
     return {
       pageId: response.id,
       ID: `${response.properties.ID?.unique_id?.prefix}-${response.properties.ID?.unique_id?.number}` || 'No ID',

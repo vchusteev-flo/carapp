@@ -10,7 +10,7 @@ interface Order {
   pageId: string
   ID: string
   name: string
-  telegramId: number
+  telegramId: string,
   orderCarId: string
   status: string
   comments: string
@@ -63,7 +63,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const response = await notionClient.getCarInquiriesByTelegramId(userData!.id)
+      const response = await notionClient.getCarInquiriesByTelegramId(String(userData!.id))
       setOrders(response)
     }
     fetchOrders()
