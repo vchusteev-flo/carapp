@@ -1,14 +1,26 @@
 'use client'
 
 import { Button } from '@/components/ui/button';
+import { notionClient } from '@/lib/notion';
 
-export function InquiryForm({ id, handleInquiry }: { id: string, handleInquiry: (formData: FormData) => Promise<void> }) {
-  async function handleSubmit(formData: FormData) {
+export function InquiryForm({ id }: { id: string }) {
+  const handleSubmit = async () => {
     const telegramUserData = JSON.parse(localStorage.getItem('telegramUser') || '{}')
-    formData.append('telegramId', telegramUserData.id)
-    formData.append('username', telegramUserData.username)
-    formData.append('name', telegramUserData.first_name)
-    await handleInquiry(formData)
+    
+    const inquiryData = {
+      id: Number(id),
+      name: telegramUserData.first_name || '',
+      phone: '',
+      email: '',
+      carOptions: [],
+      telegramId: telegramUserData.id,
+      username: telegramUserData.username
+    }
+    await notionClient.getCarInquiries();
+    // await notionClient.createCarInquiry(inquiryData)
+    // redirect('/confirmation/' + id)
+    console.log('ok')
+    console.log(inquiryData)
   }
 
   return (

@@ -1,6 +1,6 @@
 import { ImageCarousel } from '@/components/image-carousel';
+import { InquiryForm } from '@/components/inquiry-form';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import {
 	ArrowLeft,
 	Share2,
@@ -71,11 +71,7 @@ export default async function CarDetailsPage( props:  { params : pageProps} ) {
 								{feature}
 							</Badge>
 						))}
-						<Button className='w-full bg-orange-500 hover:bg-orange-600'>
-							<Link href={`/inquiry/${id}`}>
-							Make inquiry
-							</Link>
-						</Button>
+							<InquiryForm id={id} />
 					</div>
 
 					<div className='mb-6 grid grid-cols-2 gap-4'>
