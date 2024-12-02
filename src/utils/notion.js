@@ -37,7 +37,7 @@ export const getCarInquiryById = async (ID) => {
       database_id: NOTION_CAR_INQUIRIES_DATABASE_ID,
       filter: {
         property: 'ID',
-        text: {
+        unique_id: {
           equals: ID, // Assuming 'ID' is stored as a text field
         },
       },
