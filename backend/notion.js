@@ -19,10 +19,10 @@ module.exports.getCarInquiries = async () => {
             database_id: NOTION_CAR_INQUIRIES_DATABASE_ID,
         });
         console.log(response.results, 'response <<< results');
-        console.log(response.results[0].properties.ID, 'response <<< results[0]ID')
 
         return response.results.map((page) => ({
             pageId: page.id,
+            ID: `${page.properties.ID?.unique_id?.prefix}-${page.properties.ID?.unique_id?.number}` || "No ID",
             name: page.properties.Name?.title?.[0]?.plain_text || "No Name",
             phone: page.properties.Phone?.phone_number || "No Phone",
             email: page.properties.Email?.email || "No Email",
