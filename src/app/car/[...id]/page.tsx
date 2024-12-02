@@ -13,7 +13,6 @@ type Params = {
   id: string[];
 };
 
-
 async function getCarData(id: string) {
 	const response = await notionClient.getCarInquiryById(id);
   if (!response.ok) {
@@ -32,6 +31,7 @@ export default async function CarDetailsPage({
 	const { id } = await params;
 	let carResponse;
 	if (id.length > 1) {
+		console.log(id[1], 'id1 to getCarData')
 		carResponse = await getCarData(id[1]);
 	}
 

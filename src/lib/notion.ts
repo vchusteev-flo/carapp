@@ -65,7 +65,7 @@ export const notionClient = {
 		return response.data;
   },
   getCarInquiryById: async (id: string) => {
-    console.log(id)
+    console.log(id, '>>> inside getCarInquiryById')
     const response = await api.get(`/carInquiry/${id}`);
 		return response.data;
   }
