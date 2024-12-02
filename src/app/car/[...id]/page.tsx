@@ -27,10 +27,13 @@ export default async function CarDetailsPage({
 }: {
   params: Promise<Params>; 
 }) {
-
+	const data = await params;
+	console.log(data)
 	const { id } = await params;
-
-	const carResponse = await getCarData(id[1]);
+	let carResponse;
+	if (id.length > 1) {
+		carResponse = await getCarData(id[1]);
+	}
 
 	// Mock data - in real app, fetch this based on params.id
 	const car = {
@@ -83,18 +86,20 @@ export default async function CarDetailsPage({
                 Данные о расчете стоимости:
               </h2>
               <p>Локация: Германия</p>
-              <p>Стоимость под ключ: {carResponse.finalPrice}$</p>
+							
+              <p>Стоимость под ключ: {id[1] ? `${carResponse.finalPrice}$`: 'Пока не расчитана'}</p>
             </div>
-
+						{ id[1] && carResponse.comments ? (
             <div>
               <h2 className="text-xl font-semibold mb-2">
                 Комментарий продавца услуги:
               </h2>
               <p className="text-muted-foreground">
-                Lorem ipsum dolor sit amet, consectetur facilisi interdum nibh blandit
+                {carResponse.comments}
               </p>
             </div>
-
+						) : []
+						}
             <div>
               <h2 className="text-xl font-semibold mb-2">Описание:</h2>
               <p className="text-muted-foreground">
