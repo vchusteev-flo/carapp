@@ -1,6 +1,6 @@
 import { getCarInquiries } from '../../../utils/notion';
 
-export async function GET(req) {
+export async function GET() {
   console.log('request');
   try {
     // Manually set CORS headers
