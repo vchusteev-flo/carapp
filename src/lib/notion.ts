@@ -30,7 +30,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://cars.flo.team/notion',
+  baseURL: 'https://cars.flo.team/api',
   headers: {
     'Content-Type': 'application/json'
   }
