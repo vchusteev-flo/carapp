@@ -2,8 +2,10 @@
 
 import { Button } from '@/components/ui/button';
 import { notionClient } from '@/lib/notion';
+import { useState } from 'react';
 
-export function InquiryForm({ id, carPrice }: { id: string, carPrice: number }) {
+export function InquiryForm({ id, carPrice }: { id: string, carPrice: number })  {
+  const [isOk, setIsOk] = useState(false);
   const handleSubmit = async () => {
     const telegramUserData = JSON.parse(localStorage.getItem('telegramUser') || '{}')
     
@@ -16,8 +18,10 @@ export function InquiryForm({ id, carPrice }: { id: string, carPrice: number }) 
       price: carPrice,
     };
     
-    const resp2 = await notionClient.createCarInquiry(inquiryData)
-    console.log(resp2, '>>> resp2')
+    const response = await notionClient.createCarInquiry(inquiryData)
+    if (response.ok) {
+      setIsOk(true)
+    }
 
     // await notionClient.createCarInquiry(inquiryData)
     // redirect('/confirmation/' + id)
@@ -28,7 +32,7 @@ export function InquiryForm({ id, carPrice }: { id: string, carPrice: number }) 
   return (
     <form action={handleSubmit}>
       <input type="hidden" name="id" value={id} />
-      <Button type="submit" className="px-8 py-2 bg-orange-500 text-white font-medium rounded-lg shadow-md hover:shadow-lg">
+      <Button type="submit" disabled={isOk} className={`px-8 py-2 ${isOk ? `bg-orange-500`: `bg-green-500`} ${isOk ? `text-white`: `text-black`} font-medium rounded-lg shadow-md hover:shadow-lg`}>
         Make an Inquiry
       </Button>
     </form>
