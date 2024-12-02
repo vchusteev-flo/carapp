@@ -20,32 +20,37 @@ interface Order {
 const allCars = [
   {
     id: 1,
-    name: 'Audi A3',
+    name: 'Audi',
+    make: 'A3',
     image: '/a3.jpg',
     price: '21,930€',
     featured: true
   },
   {
     id: 2,
-    name: 'Mercedes-Benz C-Class',
+    name: 'Mercedes-Benz',
+    make: 'C-Class',
     image: '/c-class.jpg',
     price: '18,990€'
   },
   {
     id: 3,
-    name: 'Audi TT',
+    name: 'Audi',
+    make: 'TT',
     image: '/audiTT.jpg',
     price: '25,500€'
   },
   {
     id: 4,
-    name: 'Mercedes-Benz S-Class',
+    name: 'Mercedes-Benz',
+    make: 'S-Class',
     image: '/mercedesbenzsclass.jpg',
     price: '61,990€'
   },
   {
     id: 5,
-    name: 'Audi Q5',
+    name: 'Audi',
+    make: 'Q5',
     image: '/audiq5.jpg',
     price: '44,500€'
   }
@@ -76,7 +81,7 @@ export default function LoginPage() {
         <h1 className="text-2xl font-bold mb-8">Заказы</h1>
         <div className="space-y-6">
           {orders.map((order, index) => (
-            <OrderCard key={order.ID} order={{...order, image: allCars[index].image}} />
+            <OrderCard key={order.ID} order={{...order, image: allCars[index].image, make: allCars[index].make, model: allCars[index].name} } />
           ))}
         </div>
       </div>

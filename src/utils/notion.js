@@ -18,6 +18,7 @@ export const getCarInquiries = async () => {
       status: page.properties.Status?.status?.name || 'No Status',
       comments: page.properties.Comments?.rich_text?.[0]?.plain_text || 'No Comments',
       price: page.properties.Price?.rich_text?.[0]?.plain_text || 'No Price',
+      finalPrice: page.properties.FinalPrice?.rich_text?.[0]?.plain_text || 'No Final Price',
     }));
   } catch (error) {
     console.error('Failed to fetch car inquiries:', error.message);
@@ -38,6 +39,7 @@ export const getCarInquiryById = async (pageId) => {
       status: response.properties.Status?.status?.name || 'No Status',
       comments: response.properties.Comments?.rich_text?.[0]?.plain_text || 'No Comments',
       price: response.properties.Price?.rich_text?.[0]?.plain_text || 'No Price',
+      finalPrice: response.properties.FinalPrice?.rich_text?.[0]?.plain_text || 'No Final Price',
     };
   } catch (error) {
     console.error('Failed to fetch car inquiry by ID:', error.message);
@@ -69,6 +71,9 @@ export const createCarInquiry = async ({ name, telegramId, orderCarId, status, c
         Price: {
           rich_text: [{ text: { content: String(price) } }],
         },
+        FinalPrice: {
+          rich_text: [{ text: { content: String(price) } }],
+        }
       },
     });
     return response;
@@ -98,6 +103,7 @@ export const findCarInquiryByTelegramId = async (telegramId) => {
       status: page.properties.Status?.status?.name || 'No Status',
       comments: page.properties.Comments?.rich_text?.[0]?.plain_text || 'No Comments',
       price: page.properties.Price?.rich_text?.[0]?.plain_text || 'No Price',
+      finalPrice: page.properties.FinalPrice?.rich_text?.[0]?.plain_text || 'No Final Price',
     }));
   } catch (error) {
     console.error('Failed to find car inquiry by Telegram ID:', error.message);
