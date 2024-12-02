@@ -11,7 +11,7 @@ export const getCarInquiries = async () => {
 					database_id: NOTION_CAR_INQUIRIES_DATABASE_ID,
 			});
 
-			console.log(response.results[0])
+			console.log(JSON.stringify(response.results, null, 2)); // Pretty-print with 2 spaces for indentation
 			// return response.results.map((page) => ({
 			// 		pageId: page.id,
 			// 		ID: `${page.properties.ID?.unique_id?.prefix}-${page.properties.ID?.unique_id?.number}` || "No ID",
