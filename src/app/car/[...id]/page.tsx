@@ -14,6 +14,7 @@ type Params = {
 
 async function getCarData(id: string) {
 	const response = await notionClient.getCarInquiryById(id);
+	console.log(response)
   return response.json();
 }
 
