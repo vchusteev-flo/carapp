@@ -13,13 +13,8 @@ import { Input } from './ui/input';
 export function NavWrapper({ children }: { children: React.ReactNode }) {
 	const pathname = usePathname()
 	const router = useRouter()
-  	const isAuthPage = pathname.includes('/auth/')
 
 	const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
-
-  if (isAuthPage) {
-    return <>{children}</>
-  }
 
   const handleSearch = () => {
 		if (router) {
@@ -28,6 +23,8 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
 			console.error('Router is not mounted properly.');
 		}
   }
+	console.log(pathname)
+	console.log(pathname.includes('/auth'))
 
 	return (
 		<>
@@ -71,9 +68,9 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
 		</Link> */}
 					<Link
 						href='/auth/login' 
-						className={`flex flex-col items-center text-gray-400 ${pathname === 'auth/login' ? 'text-white' : ''}`}
+						className={`flex flex-col items-center text-gray-200`} 
 					>
-						<User className='h-6 w-6' />
+						<User className='h-6 w-6' color={`${pathname.includes('/auth/login') ? '#f97316' : 'white'}`}  />
 						<span className='mt-1 text-xs'>Profile</span>
 					</Link>
 				</div>
