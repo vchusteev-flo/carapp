@@ -79,7 +79,7 @@ export default function LoginPage() {
 
       <div className="container max-w-md mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold mb-8">Заказы</h1>
-        <div className="space-y-6">
+        <div className="flex flex-col gap-4">
           {orders.map((order, index) => (
             <OrderCard key={order.ID} order={{...order, image: allCars[index].image, make: allCars[index].make, model: allCars[index].name} } />
           ))}
