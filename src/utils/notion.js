@@ -55,10 +55,10 @@ export const createCarInquiry = async ({ name, telegramId, orderCarId, status, c
           title: [{ text: { content: name } }],
         },
         TelegramId: {
-          rich_text: [{ text: { content: telegramId } }],
+          rich_text: [{ text: { content: String(telegramId) } }],
         },
         OrderCarId: {
-          rich_text: [{ text: { content: orderCarId } }],
+          rich_text: [{ text: { content: String(orderCarId) } }],
         },
         Status: {
           status: { name: status }, // Ensure the status matches a valid option in your Notion database
@@ -67,7 +67,7 @@ export const createCarInquiry = async ({ name, telegramId, orderCarId, status, c
           rich_text: [{ text: { content: comments } }],
         },
         Price: {
-          rich_text: [{ text: { content: price } }],
+          rich_text: [{ text: { content: String(price) } }],
         },
       },
     });
