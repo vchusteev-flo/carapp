@@ -36,13 +36,13 @@ const api = axios.create({
     'Content-Type': 'application/json'
   }
 })
-
 interface CarInquiry {
-  id: number,
-  name: string
-  phone: string
-  email: string
-  carOptions: string[]
+  name: string;
+  telegramId: number;
+  orderCarId: string;
+  status: string;
+  comments: string;
+  price: number;
 }
 
 export const notionClient = {

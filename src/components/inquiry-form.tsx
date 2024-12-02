@@ -3,19 +3,18 @@
 import { Button } from '@/components/ui/button';
 import { notionClient } from '@/lib/notion';
 
-export function InquiryForm({ id }: { id: string }) {
+export function InquiryForm({ id, carPrice }: { id: string, carPrice: number }) {
   const handleSubmit = async () => {
     const telegramUserData = JSON.parse(localStorage.getItem('telegramUser') || '{}')
     
     const inquiryData = {
-      id: Number(id),
-      name: telegramUserData.first_name || '',
-      phone: '+79233022884',
-      email: 'some@mail.ru',
-      carOptions: ['lol'],
-      telegramId: telegramUserData.id,
-      username: telegramUserData.username
-    }
+      name: "Vladimir",
+      telegramId: parseInt(telegramUserData.id),
+      orderCarId: "3",
+      status: "New",
+      comments: " ",
+      price: carPrice,
+    };
     
     const resp2 = await notionClient.createCarInquiry(inquiryData)
     console.log(resp2, '>>> resp2')

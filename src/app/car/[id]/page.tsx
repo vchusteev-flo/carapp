@@ -3,8 +3,7 @@ import { InquiryForm } from '@/components/inquiry-form';
 import { Badge } from '@/components/ui/badge';
 import {
 	ArrowLeft,
-	Share2,
-	Star
+	Share2
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -15,7 +14,7 @@ export default async function CarDetailsPage( props:  { params : pageProps} ) {
 	// Mock data - in real app, fetch this based on params.id
 	const car = {
 		name: 'Audi A3',
-		price: 'Cash Price. 21 930€',
+		price: 21930,
 		rating: 4.5,
 		description:
 			'"A stylish hatchback with a sporty design, great handling, and modern features.',
@@ -45,10 +44,10 @@ export default async function CarDetailsPage( props:  { params : pageProps} ) {
 				<div className='p-4'>
 					<div className='mb-4'>
 						<h1 className='text-2xl font-bold'>{car.name}</h1>
-						<p className='text-lg font-semibold'>{car.price}</p>
+						<p className='text-lg font-semibold'>{car.price}€</p>
 					</div>
 
-					<div className='mb-4 flex items-center gap-2'>
+					{/* <div className='mb-4 flex items-center gap-2'>
 						<div className='flex items-center gap-1'>
 							<Star className='h-5 w-5 fill-orange-500 text-orange-500' />
 							<span className='font-semibold text-orange-500'>
@@ -56,7 +55,7 @@ export default async function CarDetailsPage( props:  { params : pageProps} ) {
 							</span>
 							<span className=''>/5</span>
 						</div>
-					</div>
+					</div> */}
 
 					<div className='mb-4'>
 						<p className=''>
@@ -71,7 +70,7 @@ export default async function CarDetailsPage( props:  { params : pageProps} ) {
 								{feature}
 							</Badge>
 						))}
-							<InquiryForm id={id} />
+							<InquiryForm id={id} carPrice={car.price} />
 					</div>
 
 					<div className='mb-6 grid grid-cols-2 gap-4'>

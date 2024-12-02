@@ -10,7 +10,7 @@ interface Order {
   pageId: string
   ID: string
   name: string
-  telegramId: string
+  telegramId: number
   orderCarId: string
   status: string
   comments: string
