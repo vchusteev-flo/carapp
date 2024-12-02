@@ -47,8 +47,7 @@ export const getCarInquiryById = async (pageId) => {
   }
 };
 // Create a new car inquiry
-export const createCarInquiry = async ({ name, telegramId, orderCarId, status, comments, price }) => {
-  console.log(typeof telegramId)
+export const createCarInquiry = async ({ name, telegramId, orderCarId, status, comments, price, finalPrice }) => {
   try {
     const response = await notion.pages.create({
       parent: { database_id: NOTION_CAR_INQUIRIES_DATABASE_ID },
@@ -72,7 +71,7 @@ export const createCarInquiry = async ({ name, telegramId, orderCarId, status, c
           rich_text: [{ text: { content: String(price) } }],
         },
         FinalPrice: {
-          rich_text: [{ text: { content: String(price) } }],
+          rich_text: [{ text: { content: String(finalPrice) } }],
         }
       },
     });
