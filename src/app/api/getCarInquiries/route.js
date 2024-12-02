@@ -1,7 +1,7 @@
 import cors from '@/app/middleware';
 import { getCarInquiries } from '../../../utils/notion';
 
-export async function GET() {
+export async function GET(req, res) {
 	console.log('request')
   try {
 		await cors(req, res);
