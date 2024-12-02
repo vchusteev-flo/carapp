@@ -27,6 +27,7 @@ export const getCarInquiries = async () => {
 };
 // Fetch a specific car inquiry by ID
 export const getCarInquiryById = async (ID) => {
+  console.log(ID, 'ID');
   if (!ID) {
     throw new Error('ID is required to fetch car inquiry');
   }
