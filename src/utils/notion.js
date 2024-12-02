@@ -11,14 +11,15 @@ export const getCarInquiries = async () => {
 					database_id: NOTION_CAR_INQUIRIES_DATABASE_ID,
 			});
 
-			return response.results.map((page) => ({
-					pageId: page.id,
-					ID: `${page.properties.ID?.unique_id?.prefix}-${page.properties.ID?.unique_id?.number}` || "No ID",
-					name: page.properties.Name?.title?.[0]?.plain_text || "No Name",
-					phone: page.properties.Phone?.phone_number || "No Phone",
-					email: page.properties.Email?.email || "No Email",
-					carOptions: page.properties['Car Options']?.rich_text?.[0]?.plain_text?.split(',') || [],
-			}));
+			console.log(response.results[0])
+			// return response.results.map((page) => ({
+			// 		pageId: page.id,
+			// 		ID: `${page.properties.ID?.unique_id?.prefix}-${page.properties.ID?.unique_id?.number}` || "No ID",
+			// 		name: page.properties.Name?.title?.[0]?.plain_text || "No Name",
+			// 		telegramId: page.properties.TelegramId?.phone_number || "No Phone",
+			// 		email: page.properties.Email?.email || "No Email",
+			// 		carOptions: page.properties['Car Options']?.rich_text?.[0]?.plain_text?.split(',') || [],
+			// }));
 	} catch (error) {
 			console.error('Failed to fetch car inquiries:', error.message);
 			throw new Error('Unable to fetch car inquiries');

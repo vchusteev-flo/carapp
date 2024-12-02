@@ -31,6 +31,7 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: 'https://cars.flo.team/api',
+  // baseURL: 'http://localhost:3002',
   headers: {
     'Content-Type': 'application/json'
   }
