@@ -47,7 +47,7 @@ export async function GET(request, { params }) {
     
     console.log(params.id, 'params.id');
     console.log(await params)
-    const inquiry = await getCarInquiryById(params.id);
+    const inquiry = await getCarInquiryById(await params.inquiryId);
     return new Response(JSON.stringify(inquiry), {
       status: 200,
       headers,
