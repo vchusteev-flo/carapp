@@ -1,13 +1,68 @@
 'use client'
 
+import { OrderCard } from '@/components/order-card';
+import { notionClient } from '@/lib/notion';
 import { TelegramContext } from '@/providers/telegram';
-import { ArrowLeft, Hash, MessageCircle, User, UserCircle } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
+interface Order {
+  pageId: string
+  ID: string
+  name: string
+  telegramId: string
+  orderCarId: string
+  status: string
+  comments: string
+  price: string
+}
+
+const allCars = [
+  {
+    id: 1,
+    name: 'Audi A3',
+    image: '/a3.jpg',
+    price: '21,930€',
+    featured: true
+  },
+  {
+    id: 2,
+    name: 'Mercedes-Benz C-Class',
+    image: '/c-class.jpg',
+    price: '18,990€'
+  },
+  {
+    id: 3,
+    name: 'Audi TT',
+    image: '/audiTT.jpg',
+    price: '25,500€'
+  },
+  {
+    id: 4,
+    name: 'Mercedes-Benz S-Class',
+    image: '/mercedesbenzsclass.jpg',
+    price: '61,990€'
+  },
+  {
+    id: 5,
+    name: 'Audi Q5',
+    image: '/audiq5.jpg',
+    price: '44,500€'
+  }
+]
 
 export default function LoginPage() {
   const telegram = useContext(TelegramContext)
-  const userData = telegram?.initDataUnsafe?.user
+  const userData = telegram?.initDataUnsafe?.user;
+  const [orders, setOrders] = useState<Order[] | []>([])
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const response = await notionClient.getCarInquiriesByTelegramId(userData!.id)
+      setOrders(response)
+    }
+    fetchOrders()
+  }, [])
 
   return (
     <div className='min-h-screen pb-20 bg-gradient-to-b from-charcoal via-charcoal-600 to-charcoal text-white'>
@@ -17,7 +72,16 @@ export default function LoginPage() {
         </Link>
       </div>
 
-      <main className='p-4'>
+      <div className="container max-w-md mx-auto px-4 py-8">
+        <h1 className="text-2xl font-bold mb-8">Заказы</h1>
+        <div className="space-y-6">
+          {orders.map((order, index) => (
+            <OrderCard key={order.ID} order={{...order, image: allCars[index].image}} />
+          ))}
+        </div>
+      </div>
+
+      {/* <main className='p-4'>
         <div className='flex items-center gap-4 mb-8'>
           <div className='rounded-full bg-united_nations_blue-400 p-3'>
             <UserCircle className='h-8 w-8' />
@@ -56,7 +120,7 @@ export default function LoginPage() {
             </div>
           </div>
         </div>
-      </main>
+      </main> */}
     </div>
   )
 }

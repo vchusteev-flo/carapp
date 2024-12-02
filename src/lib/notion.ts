@@ -59,5 +59,9 @@ export const notionClient = {
   deleteCarInquiry: async (id: number) => {
     const response = await api.delete(`/carInquiry/${id}`);
 		return response.data;
-  }
+  },
+  getCarInquiriesByTelegramId: async (id: number) => {
+    const response = await api.get(`/carInquiry/telegram/${id}`);
+		return response.data;
+  },
 }

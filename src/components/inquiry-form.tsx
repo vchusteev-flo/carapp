@@ -16,9 +16,8 @@ export function InquiryForm({ id }: { id: string }) {
       telegramId: telegramUserData.id,
       username: telegramUserData.username
     }
-    const resp = await notionClient.getCarInquiries();
+    
     const resp2 = await notionClient.createCarInquiry(inquiryData)
-    console.log(resp, '>>> resp')
     console.log(resp2, '>>> resp2')
 
     // await notionClient.createCarInquiry(inquiryData)

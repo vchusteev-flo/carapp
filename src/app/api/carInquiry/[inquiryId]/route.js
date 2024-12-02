@@ -1,4 +1,4 @@
-import { deleteCarInquiry } from '../../../../utils/notion';
+import { deleteCarInquiry, getCarInquiryById } from '../../../../utils/notion';
 
 export async function OPTIONS() {
   const headers = new Headers({
@@ -35,3 +35,27 @@ export async function DELETE(request, { params }) {
     });
   }
 }
+
+export async function GET(request, { params }) {
+  const headers = new Headers({
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS',
+  });
+
+  try {
+    const inquiry = await getCarInquiryById(params.id);
+    return new Response(JSON.stringify(inquiry), {
+      status: 200,
+      headers,
+    });
+  } catch (error) {
+    console.error('Error fetching car inquiry:', error);
+    return new Response(JSON.stringify({ message: 'Failed to fetch car inquiry' }), {
+      status: 500,
+      headers,
+    });
+  }
+}
+
+
