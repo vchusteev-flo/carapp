@@ -7,7 +7,6 @@ import {
 	ArrowLeft
 } from 'lucide-react';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 
 type Params = {
   id: string[];
@@ -15,9 +14,6 @@ type Params = {
 
 async function getCarData(id: string) {
 	const response = await notionClient.getCarInquiryById(id);
-  if (!response.ok) {
-    notFound();
-  }
   return response.json();
 }
 
