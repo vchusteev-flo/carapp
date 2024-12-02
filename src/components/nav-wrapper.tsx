@@ -13,12 +13,20 @@ import { Input } from './ui/input';
 export function NavWrapper({ children }: { children: React.ReactNode }) {
 	const pathname = usePathname()
 	const router = useRouter()
+	const [searchValue, setSearchValue] = useState('')
+ 
+ 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+ 		setSearchValue(e.target.value)
+ 	}
 
 	const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
 
-  const handleSearch = () => {
+  const handleSearch = (event?: React.FormEvent<HTMLFormElement>) => {
+		if (event) {
+			event.preventDefault();
+		}
 		if (router) {
-			router.push('/budget');
+			router.push(`/budget?price=${searchValue}`);
 		} else {
 			console.error('Router is not mounted properly.');
 		}
@@ -34,9 +42,11 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
 						<form onSubmit={handleSearch}>
 							<Input
 								className='w-full rounded-full bg-gray-100 pl-10 pr-4'
-								placeholder='Enter price $'
+								placeholder='Enter price'
 								type='number'
 								step={1000}
+								value={searchValue}
+								onChange={handleInputChange}
 							/>
 							<Search className='absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400' />
 						</form>

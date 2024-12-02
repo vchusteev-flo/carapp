@@ -6,7 +6,8 @@ import router from 'next/router';
 import { Button } from './ui/button';
 
 interface CarResultsProps {
-	count: number
+	count: number,
+	maxPrice?: number
 }
 
 const arrayOfDescriptions = [
@@ -23,6 +24,26 @@ const arrayOfDescriptions = [
 	'"A fuel-efficient pre-owned vehicle that is perfect for those who want to save on gas."',
 ]
 
+const arrayOfNames = [
+	'Audi A3',
+	'Mercedes-Benz C-Class',
+	'Mercedes-Benz S-Class',
+	'Mercedes-Benz S-Class',
+	'Audi A3',
+	'Audi Q5',
+	'Audi TT',
+]
+
+const arrayOfPrices = [
+	21930,
+	18990,
+	25500,
+	32750,
+ 	28990,
+ 	35900,
+ 	29500,
+]
+
 const arrayOfSrcs = [
 	'/a3.jpg',
 	'/c-class.jpg',
@@ -33,16 +54,19 @@ const arrayOfSrcs = [
 	'/audiTT.jpg',
 ]
 
-export default function CarResults({ count }: CarResultsProps) {
+export default function CarResults({ count, maxPrice }: CarResultsProps) {
 	// This is a mock function to generate dummy data
 	const generateDummyCars = (count: number) => {
-		return Array.from({ length: count }, (_, i) => ({
+		const allCars = Array.from({ length: count }, (_, i) => ({
 			id: i + 1,
-			name: `Car Model ${i + 1}`,
+			name: `${arrayOfNames[i]}`,
 			description: `${arrayOfDescriptions[i]}`,
-			price: Math.floor(Math.random() * 50000) + 10000,
+			price: arrayOfPrices[i],
 			src: `${arrayOfSrcs[i]}`,
 		}))
+		if (maxPrice) {
+			return allCars.filter(car => car.price <= maxPrice)
+		}
 	}
 	const cars = generateDummyCars(count)
 
@@ -54,7 +78,8 @@ export default function CarResults({ count }: CarResultsProps) {
 		<div className='grid gap-6'>
 			<h2 className='text-2xl text-white font-bold'>Best choices</h2>
 			<div className='grid grid-cols-2 gap-4'>
-				{cars.map(car => (
+			{cars && cars.length > 0 ? (
+					cars?.map(car => (
 					<Link href={`/car/${car.id}`} key={car.id}
 						className='cursor-pointer overflow-hidden rounded-lg bg-white '
 						onClick={() => handleCarClick(car.id)}
@@ -82,13 +107,17 @@ export default function CarResults({ count }: CarResultsProps) {
 						</div>
 						<div className='p-3 flex flex-col justify-between h-32 '>
 							<h3 className='font-semibold'>{car.name}</h3>
-							<p className='text-sm'>Cash Price. {car.price}</p>
+							<p className='text-sm'>Cash Price. {car.price}€</p>
 							<Link href={`/inquiry/${car.id}`}>
 								<Button variant={'default'} className='bg-orange-600'>Make an Inquiry</Button>
 							</Link>
 						</div>
 					</Link>
-				))}
+				))) : (
+					<div className='col-span-2 text-center text-white'>
+						No cars found matching your criteria
+					</div>
+				)}
 			</div>
 
 			{/* <div className="grid gap-4 md:grid-cols-3">

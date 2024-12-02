@@ -26,6 +26,7 @@ app.get('/getCarInquiries', async (req, res) => {
 
 // Endpoint to create a new car inquiry
 app.post('/createCarInquiry', async (req, res) => {
+    console.log('Received request to create car inquiry:', req.body);
     try {
         const inquiryData = req.body;
         await createCarInquiry(inquiryData);

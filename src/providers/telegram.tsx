@@ -33,6 +33,7 @@ export function TelegramProvider({ children }: { children: ReactNode }) {
     if (typeof window !== 'undefined' && 'Telegram' in window) {
       const app = window.Telegram.WebApp
       setTelegramApp(app)
+      localStorage.setItem('telegramUser', JSON.stringify(app.initDataUnsafe.user))
     }
   }, [])
 

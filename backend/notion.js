@@ -18,7 +18,6 @@ module.exports.getCarInquiries = async () => {
         const response = await notion.databases.query({
             database_id: NOTION_CAR_INQUIRIES_DATABASE_ID,
         });
-        console.log(response.results, 'response <<< results');
 
         return response.results.map((page) => ({
             pageId: page.id,
@@ -31,6 +30,23 @@ module.exports.getCarInquiries = async () => {
     } catch (error) {
         console.error('Failed to fetch car inquiries:', error.message);
         throw new Error('Unable to fetch car inquiries');
+    }
+};
+
+module.exports.getCarInquiryById = async (pageId) => {
+    try {
+        const response = await notion.pages.retrieve({ page_id: pageId });
+        return {
+            pageId: response.id,
+            ID: response.properties.ID?.unique_id?.prefix + '-' + response.properties.ID?.unique_id?.number || "No ID",
+            name: response.properties.Name?.title?.[0]?.plain_text || "No Name",
+            phone: response.properties.Phone?.phone_number || "No Phone",
+            email: response.properties.Email?.email || "No Email",
+            carOptions: response.properties['Car Options']?.rich_text?.[0]?.plain_text?.split(',') || [],
+        };
+    } catch (error) {
+        console.error('Failed to fetch car inquiry by ID:', error.message);
+        throw new Error('Unable to fetch car inquiry by ID');
     }
 };
 
