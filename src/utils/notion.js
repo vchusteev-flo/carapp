@@ -38,7 +38,7 @@ export const getCarInquiryById = async (ID) => {
       filter: {
         property: 'ID',
         unique_id: {
-          equals: ID, // Assuming 'ID' is stored as a text field
+          equals: parseInt(ID), // Assuming 'ID' is stored as a text field
         },
       },
     });
