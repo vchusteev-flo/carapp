@@ -27,29 +27,39 @@ export const getCarInquiries = async () => {
 };
 // Fetch a specific car inquiry by ID
 export const getCarInquiryById = async (ID) => {
+  if (!ID) {
+    throw new Error('ID is required to fetch car inquiry');
+  }
+
   try {
     const response = await notion.databases.query({
       database_id: NOTION_CAR_INQUIRIES_DATABASE_ID,
       filter: {
         property: 'ID',
-        rich_text: {
-          equals: ID,
+        text: {
+          equals: ID, // Assuming 'ID' is stored as a text field
         },
       },
     });
+
+    if (response.results.length === 0) {
+      throw new Error(`No car inquiry found with ID: ${ID}`);
+    }
+
+    const page = response.results[0];
     return {
-      pageId: response.id,
-      ID: `${response.properties.ID?.unique_id?.prefix}-${response.properties.ID?.unique_id?.number}` || 'No ID',
-      name: response.properties.Name?.title?.[0]?.plain_text || 'No Name',
-      telegramId: response.properties.TelegramId?.rich_text?.[0]?.plain_text || 'No Telegram ID',
-      orderCarId: response.properties.OrderCarId?.rich_text?.[0]?.plain_text || 'No Order Car ID',
-      status: response.properties.Status?.status?.name || 'No Status',
-      comments: response.properties.Comments?.rich_text?.[0]?.plain_text || 'No Comments',
-      price: response.properties.Price?.rich_text?.[0]?.plain_text || 'No Price',
-      finalPrice: response.properties.FinalPrice?.rich_text?.[0]?.plain_text || 'No Final Price',
+      pageId: page.id,
+      ID: `${page.properties.ID?.unique_id?.prefix}-${page.properties.ID?.unique_id?.number}` || 'No ID',
+      name: page.properties.Name?.title?.[0]?.plain_text || 'No Name',
+      telegramId: page.properties.TelegramId?.rich_text?.[0]?.plain_text || 'No Telegram ID',
+      orderCarId: page.properties.OrderCarId?.rich_text?.[0]?.plain_text || 'No Order Car ID',
+      status: page.properties.Status?.status?.name || 'No Status',
+      comments: page.properties.Comments?.rich_text?.[0]?.plain_text || 'No Comments',
+      price: page.properties.Price?.rich_text?.[0]?.plain_text || 'No Price',
+      finalPrice: page.properties.FinalPrice?.rich_text?.[0]?.plain_text || 'No Final Price',
     };
   } catch (error) {
-    console.error('Failed to fetch car inquiry by ID:', error.message);
+    console.error(`Failed to fetch car inquiry by ID (${ID}):`, error.message);
     throw new Error('Unable to fetch car inquiry by ID');
   }
 };
