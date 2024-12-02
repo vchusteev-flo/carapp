@@ -9,7 +9,10 @@ import {
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-type pageProps = Promise<{ id: string }>
+type Params = {
+  id: string[];
+};
+
 
 async function getCarData(id: string) {
 	const response = await notionClient.getCarInquiryById(id);
@@ -19,17 +22,15 @@ async function getCarData(id: string) {
   return response.json();
 }
 
-export default async function CarDetailsPage({ 
+export default async function CarDetailsPage({
   params,
-  searchParams 
-}: { 
-  params: pageProps;
-  searchParams: { ID: string };
+}: {
+  params: Promise<Params>; 
 }) {
-  const { id } = await params;
-  const ID = searchParams.ID;
 
-	const carResponse = await getCarData(ID);
+	const { id } = await params;
+
+	const carResponse = await getCarData(id[1]);
 
 	// Mock data - in real app, fetch this based on params.id
 	const car = {
@@ -42,7 +43,6 @@ export default async function CarDetailsPage({
 		images: ['/a3.jpg', '/a3side.webp', '/a3front.webp'],
 		location: 'Berlin, Germany',
 	}
-
 
 	return (
 		<div className='min-h-screen pb-20 bg-gradient-to-b from-charcoal via-charcoal-600 to-charcoal text-white'>
@@ -126,7 +126,7 @@ export default async function CarDetailsPage({
 							</Badge>
 						))}
 					</div>
-							<InquiryForm id={id} carPrice={car.price} />
+							<InquiryForm id={id[0]} carPrice={car.price} />
 				</div>
 			</main>
 		</div>

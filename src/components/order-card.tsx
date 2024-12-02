@@ -16,8 +16,9 @@ interface OrderCardProps {
 }
 
 export function OrderCard({ order }: OrderCardProps) {
+  console.log(order.ID, 'order.ID');
   return (
-    <Link href={`/car/${order.id}?ID=${order.ID}`}>
+    <Link href={`/car/${order.id}/${order.ID}`}>
       <Card className="overflow-hidden">
         <CardContent className="p-0">
           <div className="flex gap-4">
