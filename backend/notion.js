@@ -18,9 +18,10 @@ module.exports.getCarInquiries = async () => {
         const response = await notion.databases.query({
             database_id: NOTION_CAR_INQUIRIES_DATABASE_ID,
         });
+        console.log(response.results, 'response <<< results');
 
         return response.results.map((page) => ({
-            id: page.id,
+            pageId: page.id,
             name: page.properties.Name?.title?.[0]?.plain_text || "No Name",
             phone: page.properties.Phone?.phone_number || "No Phone",
             email: page.properties.Email?.email || "No Email",
