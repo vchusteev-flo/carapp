@@ -10,9 +10,9 @@ export function InquiryForm({ id }: { id: string }) {
     const inquiryData = {
       id: Number(id),
       name: telegramUserData.first_name || '',
-      phone: '',
-      email: '',
-      carOptions: [],
+      phone: '+79233022884',
+      email: 'some@mail.ru',
+      carOptions: ['lol'],
       telegramId: telegramUserData.id,
       username: telegramUserData.username
     }
