@@ -16,6 +16,7 @@ export function InquiryForm({ id, carPrice }: { id: string, carPrice: number }) 
       status: "New",
       comments: " ",
       price: carPrice,
+      finalPrice: ' ',
     };
     
     const response = await notionClient.createCarInquiry(inquiryData)
@@ -33,7 +34,7 @@ export function InquiryForm({ id, carPrice }: { id: string, carPrice: number }) 
     <form action={handleSubmit}>
       <input type="hidden" name="id" value={id} />
       <Button type="submit" disabled={isOk} className={`px-8 py-2 ${isOk ? `bg-orange-500`: `bg-green-500`} ${isOk ? `text-white`: `text-black`} font-medium rounded-lg shadow-md hover:shadow-lg`}>
-        Make an Inquiry
+        {isOk? `Связаться  с нами` : `Запрос на обратную связь отправлен`}
       </Button>
     </form>
   )
