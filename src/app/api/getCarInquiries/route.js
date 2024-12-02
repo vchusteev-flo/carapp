@@ -1,6 +1,6 @@
 import { getCarInquiries } from '../../../utils/notion';
 
-export async function GET(request) {
+export async function GET() {
   try {
     const inquiries = await getCarInquiries();
     return new Response(JSON.stringify(inquiries), {
