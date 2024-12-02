@@ -46,6 +46,7 @@ export const getCarInquiryById = async (pageId) => {
 };
 // Create a new car inquiry
 export const createCarInquiry = async ({ name, telegramId, orderCarId, status, comments, price }) => {
+  console.log(typeof telegramId)
   try {
     const response = await notion.pages.create({
       parent: { database_id: NOTION_CAR_INQUIRIES_DATABASE_ID },

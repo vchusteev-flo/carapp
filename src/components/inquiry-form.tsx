@@ -9,7 +9,7 @@ export function InquiryForm({ id, carPrice }: { id: string, carPrice: number }) 
     
     const inquiryData = {
       name: "Vladimir",
-      telegramId: parseInt(telegramUserData.id),
+      telegramId: telegramUserData.id,
       orderCarId: "3",
       status: "New",
       comments: " ",
