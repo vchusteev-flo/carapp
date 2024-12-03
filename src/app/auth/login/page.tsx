@@ -24,35 +24,40 @@ const allCars = [
     make: 'A3',
     image: '/a3.jpg',
     price: '21,930€',
-    featured: true
+    featured: true,
+    mileage: '12,000 km',
   },
   {
     id: 2,
     name: 'Mercedes-Benz',
     make: 'C-Class',
     image: '/c-class.jpg',
-    price: '18,990€'
+    price: '18,990€',
+    mileage: '15,000 km',
   },
   {
     id: 3,
     name: 'Audi',
     make: 'TT',
     image: '/audiTT.jpg',
-    price: '25,500€'
+    price: '25,500€',
+    mileage: '10,000 km',
   },
   {
     id: 4,
     name: 'Mercedes-Benz',
     make: 'S-Class',
     image: '/mercedesbenzsclass.jpg',
-    price: '61,990€'
+    price: '61,990€',
+    mileage: '5,000 km',
   },
   {
     id: 5,
     name: 'Audi',
     make: 'Q5',
     image: '/audiq5.jpg',
-    price: '44,500€'
+    price: '44,500€',
+    mileage: '8,000 km',
   }
 ]
 
@@ -77,12 +82,15 @@ export default function LoginPage() {
         </Link>
       </div>
 
-      <div className="container max-w-md mx-auto px-4 py-8">
+      <div className="container max-w-md mx-auto px-4">
         <h1 className="text-2xl font-bold mb-8">Заказы</h1>
         <div className="flex flex-col gap-4">
           {orders.map((order, index) => (
             <OrderCard key={order.ID} order={{...order, image: allCars[index].image, make: allCars[index].make, model: allCars[index].name} } />
           ))}
+          {orders.length === 0 && (
+            <p className='text-center'>У вас пока нет заказов</p>
+          )}
         </div>
       </div>
 

@@ -1,46 +1,138 @@
+import { FeatureBadges } from '@/components/feature-badges';
 import { ImageCarousel } from '@/components/image-carousel';
 import { InquiryForm } from '@/components/inquiry-form';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { notionClient } from '@/lib/notion';
-import {
-	ArrowLeft
-} from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
 type Params = {
-  id: string[];
-};
+	id: string[]
+}
 
 async function getCarData(id: string) {
-	const response = await notionClient.getCarInquiryById(id);
-  return response;
+	const response = await notionClient.getCarInquiryById(id)
+	return response
 }
 
 export default async function CarDetailsPage({
-  params,
+	params,
 }: {
-  params: Promise<Params>; 
+	params: Promise<Params>
 }) {
-	const data = await params;
+	const data = await params
 	console.log(data)
-	const { id } = await params;
-	let carResponse;
+	const { id } = await params
+	let carResponse
 	if (id.length > 1) {
 		console.log(id[1], 'id1 to getCarData')
-		carResponse = await getCarData(id[1]);
+		carResponse = await getCarData(id[1])
 	}
 
 	// Mock data - in real app, fetch this based on params.id
-	const car = {
-		name: 'Audi A3',
-		price: 21930,
-		rating: 4.5,
-		description:
-			'"A stylish hatchback with a sporty design, great handling, and modern features.',
-		features: ['Autopilot', '360° Camera'],
-		images: ['/a3.jpg', '/a3side.webp', '/a3front.webp'],
-		location: 'Berlin, Germany',
+	const cars = [
+		{
+			id: '1',
+			name: 'Audi A3',
+			image: '/a3.jpg',
+			price: 21930,
+			mileage: '12 000km',
+			year: 2023,
+			description: 'Стильный хэтчбек со спортивным дизайном, отличной управляемостью и современными функциями.',
+			features: [
+				'Autopilot',
+				'360° Camera',
+				'Premium Sound System',
+				'Leather Seats',
+				'Navigation',
+				'Bluetooth',
+				'Parking Sensors',
+			],
+			images: ['/a3.jpg', '/a3side.webp', '/a3front.webp'],
+			location: 'Berlin, Germany'
+		},
+		{
+			id: '2',
+			name: 'Mercedes-Benz C-Class',
+			image: '/c-class.jpg',
+			price: 18990,
+			year: 2012,
+			mileage: '142 000km',
+			description: 'Роскошный седан с элегантным дизайном, превосходным комфортом и передовыми технологиями.',
+			features: [
+				'MBUX Infotainment',
+				'Burmester Sound System',
+				'Leather Seats',
+				'Navigation',
+				'Bluetooth',
+				'Active Parking Assist',
+			],
+			images: ['/mfront.jpg', '/mside.jpg', '/mfront.jpg'],
+			location: 'Berlin, Germany'
+		},
+		{
+			id: '3',
+			name: 'Audi TT',
+			image: '/audiTT.jpg',
+			price: 25500,
+			year: 2016,
+			mileage: '36 000km',
+			description: 'Спортивное купе с выразительным дизайном и мощным двигателем.',
+			features: [
+				'Virtual Cockpit',
+				'Sport Seats',
+				'LED Headlights',
+				'Navigation',
+				'Bluetooth',
+				'Parking Sensors',
+			],
+			images: ['/audiTT.jpg', '/audiTTdrive.avif', '/audiTTin.avif'],
+			location: 'Berlin, Germany'
+		},
+		{
+			id: '4',
+			name: 'Mercedes-Benz S-Class',
+			image: '/mercedesbenzsclass.jpg',
+			price: 61990,
+			year: 2016,
+			mileage: '52 000km',
+			description: 'Флагманский седан с максимальным комфортом и инновационными технологиями.',
+			features: [
+				'MBUX Infotainment',
+				'Burmester 3D Sound',
+				'Massage Seats',
+				'Night Vision',
+				'Air Suspension',
+				'Active Parking',
+			],
+			images: ['/mercedesbenzsclass.jpg', '/classIn.jpg', '/msfront.jpg'],
+			location: 'Berlin, Germany'
+		},
+		{
+			id: '5',
+			name: 'Audi Q5',
+			image: '/audiq5.jpg',
+			price: 44500,
+			year: 2018,
+			mileage: '66 000km',
+			description: 'Премиальный кроссовер с просторным салоном и отличной динамикой.',
+			features: [
+				'Quattro AWD',
+				'Virtual Cockpit',
+				'Panoramic Roof',
+				'Navigation',
+				'Bang & Olufsen Sound',
+				'Parking Assist',
+			],
+			images: ['/audiq5.jpg', '/audiq5side.jpg', '/audiq5back.jpg'],
+			location: 'Berlin, Germany'
+		}
+	]
+	let car;
+
+	if (!!id[0]) {
+		car = cars.find(car => car!.id === id[0]);
+	} else {
+		car = cars[0];
 	}
 
 	return (
@@ -56,78 +148,59 @@ export default async function CarDetailsPage({
 
 			{/* Main Content */}
 			<main className=''>
-			<ImageCarousel images={car.images} name={car.name} />
+				<ImageCarousel images={car!.images} name={car!.name} />
 				{/* Car Details */}
 				<div className='p-4'>
 					<div className='mb-4'>
-						<h1 className='text-2xl font-bold'>{car.name}</h1>
-						<p className='text-lg font-semibold'>{car.price}€</p>
-						<p>2024</p>
-						<p>120 000 km</p>
+						<h1 className='text-2xl font-bold'>{car!.name}</h1>
+						<p className='text-lg font-semibold'>{car!.price}€</p>
+						<p>{car!.year}</p>
+						<p>{car!.mileage}</p>
 					</div>
 
 					{/* <div className='mb-4 flex items-center gap-2'>
 						<div className='flex items-center gap-1'>
 							<Star className='h-5 w-5 fill-orange-500 text-orange-500' />
 							<span className='font-semibold text-orange-500'>
-								{car.rating}
+								{car!.rating}
 							</span>
 							<span className=''>/5</span>
 						</div>
 					</div> */}
 
-					<div className="space-y-6 mt-6">
-            <div>
-              <h2 className="text-xl font-semibold mb-2">
-                Данные о расчете стоимости:
-              </h2>
-              <p>Локация: Германия</p>
-							
-              <p>Стоимость под ключ: {id[1] ? `${carResponse.finalPrice}$`: 'Пока не расчитана'}</p>
-            </div>
-						{ id[1] && carResponse.comments ? (
-            <div>
-              <h2 className="text-xl font-semibold mb-2">
-                Комментарий продавца услуги:
-              </h2>
-              <p className="text-muted-foreground">
-                {carResponse.comments}
-              </p>
-            </div>
-						) : []
-						}
-            <div>
-              <h2 className="text-xl font-semibold mb-2">Описание:</h2>
-              <p className="text-muted-foreground">
-                Lorem ipsum dolor sit amet, consectetur facilisi interdum nibh blandit
-              </p>
-            </div>
+					<div className='space-y-6 mt-6'>
+						<div>
+							<h2 className='text-xl font-semibold mb-2'>
+								Данные о расчете стоимости:
+							</h2>
+							<p>Локация: Германия</p>
 
-            <div className="flex gap-2 flex-wrap">
-              <Badge variant="secondary">Autopilot</Badge>
-              <Badge variant="secondary">360° Camera</Badge>
-              <Badge variant="secondary">Панорама</Badge>
-              <Button variant="link" className="text-orange-500 p-0">
-                See All
-              </Button>
-            </div>
+							<p>
+								Стоимость под ключ:{' '}
+								{id[1] ? `${carResponse.finalPrice}$` : 'Пока не расчитана'}
+							</p>
 						</div>
+						{id[1] && carResponse.comments ? (
+							<div>
+								<h2 className='text-xl font-semibold mb-2'>
+									Комментарий продавца услуги:
+								</h2>
+								<p className='text-muted-foreground'>{carResponse.comments}</p>
+							</div>
+						) : (
+							[]
+						)}
+						<div>
+							<h2 className='text-xl font-semibold mb-2'>Описание:</h2>
+							<p className=''>{car!.description}</p>
+						</div>
+						<FeatureBadges features={car!.features}/>
 
-					<div className='mb-4'>
-						<p className=''>
-							{car.description}
-							<button className='ml-1 text-orange-500'>Read more...</button>
-						</p>
 					</div>
 
-					<div className='mb-6 flex gap-2'>
-						{car.features.map(feature => (
-							<Badge key={feature} variant='secondary'>
-								{feature}
-							</Badge>
-						))}
+					<div className='pt-10 flex justify-center'>
+						<InquiryForm id={id[0]} carPrice={car!.price} />
 					</div>
-							<InquiryForm id={id[0]} carPrice={car.price} />
 				</div>
 			</main>
 		</div>
