@@ -71,7 +71,7 @@ export function InquiryForm({
       <input type="hidden" name="id" value={id} />
       <Button 
         type="submit" 
-        className={`px-16 py-8 transition-colors duration-300 ${(!carOrdered && !isLoading) ? 'bg-orange-500 text-white' : 'bg-green-500 text-black'} font-medium rounded-lg shadow-md hover:shadow-lg`}
+        className={`px-16 py-8 transition-colors duration-300 ${(!carOrdered && !isLoading) ? 'bg-orange-500 text-white' : 'bg-green-500 text-black'} font-medium rounded-lg`}
       >
         {isLoading ? 'Запрос на обратную связь отправлен' : !carOrdered ? 'Связаться с нами' : 'Запрос на обратную связь отправлен'}
       </Button>
