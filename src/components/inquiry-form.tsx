@@ -41,12 +41,14 @@ export function InquiryForm({ id, carPrice }: { id: string; carPrice: number }) 
     e.preventDefault();
     setIsLoading(true);
     
-    const telegramUserData = JSON.parse(localStorage.getItem('telegramUser') || '{}');
-    
     if (inquiryStatus.status === 'New') {
       await notionClient.updateCarInquiryStatus(inquiryStatus.pageId!, 'CallMe');
       setInquiryStatus({ ...inquiryStatus, status: 'CallMe' });
-    } else {
+    } else if (inquiryStatus.status === 'Offer') {
+      await notionClient.updateCarInquiryStatus(inquiryStatus.pageId!, 'CallMe');
+      setInquiryStatus({ ...inquiryStatus, status: 'CallMe' });
+    } else if (!inquiryStatus.status) {
+      const telegramUserData = JSON.parse(localStorage.getItem('telegramUser') || '{}');
       const response = await notionClient.createCarInquiry({
         name: telegramUserData.username,
         telegramId: telegramUserData.id,
