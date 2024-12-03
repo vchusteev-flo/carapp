@@ -13,77 +13,81 @@ interface CarInquiry {
   price: number;
   finalPrice: string;
 }
+interface InquiryStatus {
+  status: 'New' | 'CallMe' | 'Offer' | null;
+  pageId?: string;
+}
 
 export function InquiryForm({ id, carPrice }: { id: string; carPrice: number }) {
-  const [hasButtonBeenClicked, setHasButtonBeenClicked] = useState<boolean>(() => {
-    const storedValue = localStorage.getItem(`hasButtonBeenClicked_${id}`);
-    return storedValue ? JSON.parse(storedValue) : false;
-  });
-  const [carOrdered, setCarOrdered] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [inquiryStatus, setInquiryStatus] = useState<InquiryStatus>({ status: null });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // Store hasButtonBeenClicked in localStorage whenever it changes
-    localStorage.setItem(`hasButtonBeenClicked_${id}`, JSON.stringify(hasButtonBeenClicked));
-  }, [hasButtonBeenClicked, id]);
-
-  useEffect(() => {
-    const checkIfCarOrdered = async () => {
+    const checkInquiryStatus = async () => {
       const telegramUserData = JSON.parse(localStorage.getItem('telegramUser') || '{}');
       if (telegramUserData.id) {
         const inquiries = await notionClient.getCarInquiriesByTelegramId(telegramUserData.id);
-        const hasActiveOrder = inquiries.some(
-          (inquiry: CarInquiry) => inquiry.orderCarId === id && inquiry.status !== 'Canceled'
-        );
-        setCarOrdered(hasActiveOrder);
+        const currentInquiry = inquiries.find((inquiry: CarInquiry) => inquiry.orderCarId === id);
+        if (currentInquiry) {
+          setInquiryStatus({ status: currentInquiry.status, pageId: currentInquiry.pageId });
+        }
       }
     };
-
-    checkIfCarOrdered();
+    
+    checkInquiryStatus();
   }, [id]);
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault(); // Prevent the default form submission behavior
-
-    if (carOrdered) {
-      // Car is already ordered, so we only change the button state locally
-      setHasButtonBeenClicked(true);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    
+    const telegramUserData = JSON.parse(localStorage.getItem('telegramUser') || '{}');
+    
+    if (inquiryStatus.status === 'New') {
+      await notionClient.updateCarInquiryStatus(inquiryStatus.pageId!, 'CallMe');
+      setInquiryStatus({ ...inquiryStatus, status: 'CallMe' });
     } else {
-      // Car is not ordered yet, proceed to send the request to the server
-      setIsLoading(true);
-      setHasButtonBeenClicked(true);
-
-      const telegramUserData = JSON.parse(localStorage.getItem('telegramUser') || '{}');
-
-      const inquiryData = {
+      const response = await notionClient.createCarInquiry({
         name: telegramUserData.username,
         telegramId: telegramUserData.id,
         orderCarId: id,
-        status: 'New',
-        comments: ' ',
+        status: "New",
+        comments: " ",
         price: carPrice,
         finalPrice: '-',
-      };
-
-      const response = await notionClient.createCarInquiry(inquiryData);
-      setIsLoading(false);
-      if (response) {
-        setCarOrdered(true);
+      });
+      if (response.ok) {
+        setInquiryStatus({ status: 'New', pageId: response.id });
       }
     }
+    
+    setIsLoading(false);
   };
+
+  const getButtonConfig = () => {
+    switch (inquiryStatus.status) {
+      case 'CallMe':
+        return { text: 'Запрос на обратную связь отправлен', color: 'bg-green-500', disabled: true };
+      case 'New':
+        return { text: 'Запрос на расчет отправлен', color: 'bg-green-500', disabled: false };
+      case 'Offer':
+        return { text: 'Связаться со мной', color: 'bg-orange-500', disabled: false };
+      default:
+        return { text: 'Сделать расчет', color: 'bg-orange-500', disabled: false };
+    }
+  };
+
+  const buttonConfig = getButtonConfig();
 
   return (
     <form onSubmit={handleSubmit}>
       <input type="hidden" name="id" value={id} />
-      <Button
-        type="submit"
-        className={`px-16 py-8 transition-colors duration-300 ${
-          hasButtonBeenClicked ? 'bg-green-500 text-black' : 'bg-orange-500 text-white'
-        } font-medium rounded-lg`}
-        disabled={isLoading}
+      <Button 
+        type="submit" 
+        disabled={buttonConfig.disabled || isLoading}
+        className={`px-16 py-8 ${buttonConfig.color} ${buttonConfig.color === 'bg-green-500' ? 'text-black' : 'text-white'} font-medium rounded-lg shadow-md hover:shadow-lg`}
       >
-        {isLoading ? 'Запрос на обратную связь отправлен' : !carOrdered ? 'Сделать расчет' : 'Запрос на обратную связь отправлен'}
+        {isLoading ? 'Отправка запроса...' : buttonConfig.text}
       </Button>
     </form>
   );

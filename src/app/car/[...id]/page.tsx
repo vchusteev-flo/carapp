@@ -194,9 +194,7 @@ export default async function CarDetailsPage({
 							<p className=''>{car!.description}</p>
 						</div>
 						<FeatureBadges features={car!.features}/>
-
 					</div>
-
 					<div className='pt-10 flex justify-center'>
 						<InquiryForm id={id[0]} carPrice={car!.price} />
 					</div>

@@ -144,3 +144,20 @@ export const deleteCarInquiry = async (id) => {
     throw new Error('Unable to delete (cancel) car inquiry');
   }
 };
+
+export const updateCarInquiryStatus = async(id, newState) => {
+  try {
+    const response = await notion.pages.update({
+      page_id: id,
+      properties: {
+        Status: {
+          status: { name: newState }, // Ensure this matches your database's predefined status options
+        },
+      },
+    });
+    return { success: true, message: 'Inquiry status updated', response };
+  } catch (error) {
+    console.error('Failed to update car inquiry status:', error.message);
+    throw new Error('Unable to update car inquiry status');
+  }
+}

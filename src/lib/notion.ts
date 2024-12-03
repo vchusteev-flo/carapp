@@ -69,5 +69,9 @@ export const notionClient = {
     console.log(id, '>>> inside getCarInquiryById')
     const response = await api.get(`/carInquiry/${id}`);
 		return response.data;
+  },
+  updateCarInquiryStatus: async (id: string, status: string) => {
+    const response = await api.patch(`/carInquiry/${id}`, { status });
+		return response.data;
   }
 }
