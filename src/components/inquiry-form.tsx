@@ -78,9 +78,13 @@ export function InquiryForm({ id, carPrice }: { id: string; carPrice: number }) 
   };
 
   const buttonConfig = getButtonConfig();
-
+  console.log(buttonConfig)
   return (
     <form onSubmit={handleSubmit}>
+      <p>{inquiryStatus.status}</p>
+      <p>{buttonConfig.text}</p>
+      <p>{buttonConfig.color}</p>
+      <p>{buttonConfig.disabled}</p>
       <input type="hidden" name="id" value={id} />
       <Button 
         type="submit" 
