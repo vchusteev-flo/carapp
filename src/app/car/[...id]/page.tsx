@@ -170,7 +170,7 @@ export default async function CarDetailsPage({
 					<div className='space-y-6 mt-6'>
 						<div>
 							<h2 className='text-xl font-semibold mb-2'>
-								Данные о расчете стоимости:
+								Расчёт:
 							</h2>
 							<p>Локация: Германия</p>
 
@@ -182,7 +182,7 @@ export default async function CarDetailsPage({
 						{id[1] && carResponse.comments ? (
 							<div>
 								<h2 className='text-xl font-semibold mb-2'>
-									Комментарий продавца услуги:
+									Комментарий:
 								</h2>
 								<p className=''>{carResponse.comments}</p>
 							</div>
