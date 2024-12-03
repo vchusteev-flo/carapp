@@ -4,31 +4,29 @@ import { HomeIcon, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 // import router from 'next/router';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { FilterModal } from './filter-modal';
+// import { useRouter } from 'next/navigation';
 
 export function NavWrapper({ children }: { children: React.ReactNode }) {
 	const pathname = usePathname()
-	const router = useRouter()
-	const [searchValue, setSearchValue] = useState('')
+	// const router = useRouter()
+	// const [searchValue, setSearchValue] = useState('')
  
  	// const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
  	// 	setSearchValue(e.target.value)
  	// }
 
-	const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
+	// const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
 
-  const handleSearch = (event?: React.FormEvent<HTMLFormElement>) => {
-		if (event) {
-			event.preventDefault();
-		}
-		if (router) {
-			router.push(`/budget?price=${searchValue}`);
-		} else {
-			console.error('Router is not mounted properly.');
-		}
-  }
+  // const handleSearch = (event?: React.FormEvent<HTMLFormElement>) => {
+	// 	if (event) {
+	// 		event.preventDefault();
+	// 	}
+	// 	if (router) {
+	// 		router.push(`/budget?price=${searchValue}`);
+	// 	} else {
+	// 		console.error('Router is not mounted properly.');
+	// 	}
+  // }
 	console.log(pathname)
 	console.log(pathname.includes('/auth'))
 
@@ -68,7 +66,6 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
 				<div className='flex items-center justify-around p-4'>
 					<Link href='/' className='flex flex-col items-center text-gray-200'>
 						<HomeIcon className={`h-6 w-6`} color={`${pathname === '/' ? '#f97316' : 'white'}`} />
-						<span className='mt-1 text-xs'>Home</span>
 					</Link>
 					{/* <Link href="/favorites" className="flex flex-col items-center text-gray-400">
 		<Heart className="h-6 w-6" />
@@ -79,16 +76,15 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
 						className={`flex flex-col items-center text-gray-200`} 
 					>
 						<ShoppingCart className='h-6 w-6' color={`${pathname.includes('/auth/login') ? '#f97316' : 'white'}`}  />
-						<span className='mt-1 text-xs'>Profile</span>
 					</Link>
 				</div>
 			</nav>
 			{/* Filter Modal */}
-      <FilterModal
+      {/* <FilterModal
         isOpen={isFilterModalOpen}
         onClose={() => setIsFilterModalOpen(false)}
         onSearch={handleSearch}
-      />
+      /> */}
 		</>
 	)
 }
