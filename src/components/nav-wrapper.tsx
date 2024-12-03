@@ -13,9 +13,9 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
 	const router = useRouter()
 	const [searchValue, setSearchValue] = useState('')
  
- 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
- 		setSearchValue(e.target.value)
- 	}
+ 	// const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+ 	// 	setSearchValue(e.target.value)
+ 	// }
 
 	const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
 
