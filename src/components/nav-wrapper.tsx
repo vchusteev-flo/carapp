@@ -1,14 +1,12 @@
 'use client'
 
-import { Filter, HomeIcon, Search, User } from 'lucide-react';
+import { HomeIcon, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 // import router from 'next/router';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FilterModal } from './filter-modal';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
 
 export function NavWrapper({ children }: { children: React.ReactNode }) {
 	const pathname = usePathname()
@@ -36,7 +34,7 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
 
 	return (
 		<>
-			<header className='sticky top-0 z-50 bg-charcoal p-4 shadow-sm'>
+			{/* <header className='sticky top-0 z-50 bg-charcoal p-4 shadow-sm'>
 				<div className='flex items-center gap-4'>
 					<div className='relative flex-1'>
 						<form onSubmit={handleSearch}>
@@ -61,7 +59,7 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
 						<Filter className='h-5 w-5' />
 					</Button>
 				</div>
-			</header>
+			</header> */}
 
 			<main>{children}</main>
 
@@ -80,7 +78,7 @@ export function NavWrapper({ children }: { children: React.ReactNode }) {
 						href='/auth/login' 
 						className={`flex flex-col items-center text-gray-200`} 
 					>
-						<User className='h-6 w-6' color={`${pathname.includes('/auth/login') ? '#f97316' : 'white'}`}  />
+						<ShoppingCart className='h-6 w-6' color={`${pathname.includes('/auth/login') ? '#f97316' : 'white'}`}  />
 						<span className='mt-1 text-xs'>Profile</span>
 					</Link>
 				</div>

@@ -1,135 +1,178 @@
 'use client'
 
-import { ChevronLeft, ChevronRight, Heart } from 'lucide-react';
+import { SearchForm } from '@/components/search-form';
+import { Heart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import Slider from "react-slick";
+import { useState } from 'react';
 
 // Import slick-carousel styles
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+// import "slick-carousel/slick/slick.css";
+
+// Combine featured and recommended cars
+const allCars = [
+  {
+    id: 1,
+    name: 'Audi A3',
+    image: '/a3.jpg',
+    price: '21,930€',
+    featured: true
+  },
+  {
+    id: 2,
+    name: 'Mercedes-Benz C-Class',
+    image: '/c-class.jpg',
+    price: '18,990€'
+  },
+  {
+    id: 3,
+    name: 'Audi TT',
+    image: '/audiTT.jpg',
+    price: '25,500€'
+  },
+  {
+    id: 4,
+    name: 'Mercedes-Benz S-Class',
+    image: '/mercedesbenzsclass.jpg',
+    price: '61,990€'
+  },
+  {
+    id: 5,
+    name: 'Audi Q5',
+    image: '/audiq5.jpg',
+    price: '44,500€'
+  }
+]
 
 export default function Home() {
   const router = useRouter()
-  const [isClient, setIsClient] = useState(false)
 
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
+  const [filteredCars, setFilteredCars] = useState(allCars)
+  const handleSearch = (budget: { from: string; to: string }, filters: { brand: string; model: string }) => {
+    let filtered = allCars
+
+    // Filter by budget range
+    if (budget.from || budget.to) {
+      filtered = filtered.filter(car => {
+        const price = parseInt(car.price.replace('€', '').replace(',', ''))
+        const fromPrice = budget.from ? parseInt(budget.from) : 0
+        const toPrice = budget.to ? parseInt(budget.to) : Infinity
+        return price >= fromPrice && price <= toPrice
+      })
+    }
+
+    // Filter by brand
+    if (filters.brand) {
+      filtered = filtered.filter(car => 
+        car.name.toLowerCase().includes(filters.brand.toLowerCase())
+      )
+    }
+
+    // Filter by model
+    if (filters.model) {
+      filtered = filtered.filter(car => 
+        car.name.toLowerCase().includes(filters.model.toLowerCase())
+      )
+    }
+
+    setFilteredCars(filtered)
+  }
+  // const [isClient, setIsClient] = useState(false)
+
+  // useEffect(() => {
+  //   setIsClient(true)
+  // }, [])
 
   const handleCarClick = (id: number) => {
     router.push(`/car/${id}`)
   }
 
-  // Combine featured and recommended cars
-  const allCars = [
-    {
-      id: 1,
-      name: 'Audi A3',
-      image: '/a3.jpg',
-      price: '21,930€',
-      featured: true
-    },
-    {
-      id: 2,
-      name: 'Mercedes-Benz C-Class',
-      image: '/c-class.jpg',
-      price: '18,990€'
-    },
-    {
-      id: 3,
-      name: 'Audi TT',
-      image: '/audiTT.jpg',
-      price: '25,500€'
-    },
-    {
-      id: 4,
-      name: 'Mercedes-Benz S-Class',
-      image: '/mercedesbenzsclass.jpg',
-      price: '61,990€'
-    },
-    {
-      id: 5,
-      name: 'Audi Q5',
-      image: '/audiq5.jpg',
-      price: '44,500€'
-    }
-  ]
-
-  interface ArrowProps {
-    onClick?: () => void;
-    currentSlide?: number;
-    slideCount?: number;
-  }
   
-  const PrevArrow = (props: ArrowProps) => {
-    const { onClick } = props
-    return (
-      <button
-        className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/80 p-2 shadow-md"
-        onClick={onClick}
-      >
-        <ChevronLeft className="h-6 w-6 text-gray-800" />
-      </button>
-    )
-  }
-  const NextArrow = (props: ArrowProps) => {
-    const { onClick } = props
-    return (
-      <button
-        className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/80 p-2 shadow-md"
-        onClick={onClick}
-      >
-        <ChevronRight className="h-6 w-6 text-gray-800" />
-      </button>
-    )
-  }
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
-    appendDots: (dots: React.ReactNode) => (
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '10px',
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <ul style={{ margin: "0px" }}> {dots} </ul>
-      </div>
-    ),
-    customPaging: () => (
-      <div
-        style={{
-          width: "10px",
-          height: "10px",
-          borderRadius: "50%",
-          background: "rgba(255, 255, 255, 0.5)",
-          display: "inline-block",
-          margin: "0 4px",
-        }}
-      />
-    ),
-  }
+  // interface ArrowProps {
+  //   onClick?: () => void;
+  //   currentSlide?: number;
+  //   slideCount?: number;
+  // }
+  
+  // const PrevArrow = (props: ArrowProps) => {
+  //   const { onClick } = props
+  //   return (
+  //     <button
+  //       className="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/80 p-2 shadow-md"
+  //       onClick={onClick}
+  //     >
+  //       <ChevronLeft className="h-6 w-6 text-gray-800" />
+  //     </button>
+  //   )
+  // }
+  // const NextArrow = (props: ArrowProps) => {
+  //   const { onClick } = props
+  //   return (
+  //     <button
+  //       className="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white/80 p-2 shadow-md"
+  //       onClick={onClick}
+  //     >
+  //       <ChevronRight className="h-6 w-6 text-gray-800" />
+  //     </button>
+  //   )
+  // }
+
+  // const settings = {
+  //   dots: true,
+  //   infinite: true,
+  //   speed: 500,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1,
+  //   prevArrow: <PrevArrow />,
+  //   nextArrow: <NextArrow />,
+  //   appendDots: (dots: React.ReactNode) => (
+  //     <div
+  //       style={{
+  //         position: 'absolute',
+  //         bottom: '10px',
+  //         width: '100%',
+  //         display: 'flex',
+  //         justifyContent: 'center',
+  //         alignItems: 'center',
+  //       }}
+  //     >
+  //       <ul style={{ margin: "0px" }}> {dots} </ul>
+  //     </div>
+  //   ),
+  //   customPaging: () => (
+  //     <div
+  //       style={{
+  //         width: "10px",
+  //         height: "10px",
+  //         borderRadius: "50%",
+  //         background: "rgba(255, 255, 255, 0.5)",
+  //         display: "inline-block",
+  //         margin: "0 4px",
+  //       }}
+  //     />
+  //   ),
+  // }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-charcoal via-charcoal-600 to-charcoal">
 
       {/* Main Content */}
       <main className="pb-20">
+      <div className="container text-white max-w-md mx-auto px-4 py-8">
+        <h1 className="text-2xl font-bold text-center mb-8">
+          Возим машины из Германии
+        </h1>
+        <p className="text-center mb-8">
+          Введите подходящий бюджет или выбирете нужную марку и модель автомобиля
+        </p>
+        <SearchForm onSearch={handleSearch}/>
+      </div>
+
         {/* Car Carousel */}
-        <div className="mb-2">
+        {/* <div className="mb-2">
           {isClient && (
             <div className="relative">
               <Slider {...settings}>
@@ -153,7 +196,7 @@ export default function Home() {
                       />
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 text-white">
                         <h3 className="text-lg font-semibold">{car.name}</h3>
-                        <p className="text-sm">Cash Price. {car.price}</p>
+                        <p className="text-sm">{car.price}</p>
                       </div>
                     </div>
                   </div>
@@ -166,7 +209,7 @@ export default function Home() {
               `}</style>
             </div>
           )}
-        </div>
+        </div> */}
 
         {/* Recommended Section */}
         <div className="px-4">
@@ -177,7 +220,7 @@ export default function Home() {
             </Link>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            {allCars.slice(1).map((car) => (
+            {filteredCars.map((car) => (
               <div
                 key={car.id}
                 className="cursor-pointer overflow-hidden rounded-lg bg-white "
@@ -206,7 +249,7 @@ export default function Home() {
                 </div>
                 <div className="p-3 flex flex-col justify-between h-24 ">
                   <h3 className="font-semibold">{car.name}</h3>
-                  <p className="text-sm">Cash Price. {car.price}</p>
+                  <p className="text-sm">{car.price}</p>
                 </div>
               </div>
             ))}

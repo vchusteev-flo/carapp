@@ -20,7 +20,7 @@ export async function DELETE(request, { params }) {
     'Access-Control-Allow-Methods': 'DELETE, OPTIONS',
   });
 
-  const { inquiryId } = params;
+  const { inquiryId } = await params;
   try {
     await deleteCarInquiry(inquiryId);
     return new Response(JSON.stringify({ success: true }), {
@@ -44,8 +44,6 @@ export async function GET(request, { params }) {
   });
 
   try {
-    
-    console.log(params.id, 'params.id');
     console.log(await params)
     const inquiry = await getCarInquiryById(await params.inquiryId);
     return new Response(JSON.stringify(inquiry), {
