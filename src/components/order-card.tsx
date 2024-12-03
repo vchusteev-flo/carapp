@@ -4,7 +4,7 @@ import Link from "next/link";
 
 interface OrderCardProps {
   order: {
-    orderCarId?: number
+    orderCarId: string,
     ID: string,
     image: string
     make?: string
