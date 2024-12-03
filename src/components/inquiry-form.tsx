@@ -59,7 +59,7 @@ export function InquiryForm({
 			finalPrice: '-',
 		}
 
-		const response = await notionClient.createCarInquiry(inquiryData)
+		await notionClient.createCarInquiry(inquiryData)
     setTimeout(() => {
       setCarOrdered(true);
       setIsLoading(false);
