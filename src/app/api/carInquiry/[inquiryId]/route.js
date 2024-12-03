@@ -1,4 +1,4 @@
-import { deleteCarInquiry, getCarInquiryById } from '../../../../utils/notion';
+import { deleteCarInquiry, getCarInquiryById, updateCarInquiryStatus } from '../../../../utils/notion';
 
 export async function OPTIONS() {
   const headers = new Headers({
@@ -59,4 +59,29 @@ export async function GET(request, { params }) {
   }
 }
 
+export async function PATCH(request, { params }) {
+  const headers = new Headers({
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'PATCH, OPTIONS',
+  });
 
+  const { status } = await request.json();
+  const { pageId } = params
+  // const { pageId, status } = await params;
+  console.log(pageId, status, '>>> pageId status')
+  console.log(await params, '>>> await params') 
+  try {
+    await updateCarInquiryStatus(pageId, status);
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers,
+    });
+  } catch (error) {
+    console.error('Error updating car inquiry:', error);
+    return new Response(JSON.stringify({ message: 'Failed to update car inquiry' }), {
+      status: 500,
+      headers,
+    });
+  }
+}
