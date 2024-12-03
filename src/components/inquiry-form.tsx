@@ -60,10 +60,13 @@ export function InquiryForm({
 		}
 
 		const response = await notionClient.createCarInquiry(inquiryData)
-		if (response.ok) {
-			setCarOrdered(true)
-		}
-		setIsLoading(true)
+    setTimeout(() => {
+      if (response.ok) {
+        setCarOrdered(true);
+      }
+      setIsLoading(false);
+    }, 2000);
+  
 	}
 
 	return (
