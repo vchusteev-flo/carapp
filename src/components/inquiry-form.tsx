@@ -92,7 +92,7 @@ export function InquiryForm({ id, carPrice }: { id: string; carPrice: number }) 
         } font-medium rounded-lg`}
         disabled={isLoading}
       >
-        {buttonText}
+        {isLoading ? 'Запрос на обратную связь отправлен' : !carOrdered ? 'Сделать расчет' : 'Запрос на обратную связь отправлен'}
       </Button>
     </form>
   );

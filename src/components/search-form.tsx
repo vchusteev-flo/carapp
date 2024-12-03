@@ -11,7 +11,10 @@ import {
 import { useState } from 'react';
 
 interface SearchFormProps {
-  onSearch: (budget: { from: string; to: string }, filters: { brand: string; model: string }) => void
+	onSearch: (
+		budget: { from: string; to: string },
+		filters: { brand: string; model: string }
+	) => void
 }
 
 export function SearchForm({ onSearch }: SearchFormProps) {
@@ -21,9 +24,9 @@ export function SearchForm({ onSearch }: SearchFormProps) {
 	})
 
 	const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    onSearch(budget, filters)
-  }
+		e.preventDefault()
+		onSearch(budget, filters)
+	}
 
 	const [filters, setFilters] = useState({
 		brand: '',
@@ -95,23 +98,32 @@ export function SearchForm({ onSearch }: SearchFormProps) {
 			<div className='space-y-2'>
 				<label className='text-sm font-medium'>Бюджет</label>
 				<div className='grid grid-cols-2 gap-4'>
-					<Input
-						type='number'
-						placeholder='от'
-						className='bg-white text-black'
-						value={budget.from}
-						onChange={e => setBudget({ ...budget, from: e.target.value })}
-					/>
-					<Input
-						type='number'
-						placeholder='до'
-						className='bg-white text-black'
-						value={budget.to}
-						onChange={e => setBudget({ ...budget, to: e.target.value })}
-					/>
+					<div className='relative'>
+						<Input
+							type='number'
+							placeholder='от'
+							className='bg-white text-black pr-6'
+							value={budget.from}
+							onChange={e => setBudget({ ...budget, from: e.target.value })}
+						/>
+						<span className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-500'>
+							€
+						</span>
+					</div>
+					<div className='relative'>
+						<Input
+							type='number'
+							placeholder='до'
+							className='bg-white text-black pr-6'
+							value={budget.to}
+							onChange={e => setBudget({ ...budget, to: e.target.value })}
+						/>
+						<span className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-500'>
+							€
+						</span>
+					</div>
 				</div>
 			</div>
-
 			<div className='grid grid-cols-1 gap-4'>
 				<div className='grid gap-2'>
 					<Label htmlFor='brand'>Марка</Label>
@@ -122,6 +134,7 @@ export function SearchForm({ onSearch }: SearchFormProps) {
 							<SelectValue placeholder='Выбрать марку' />
 						</SelectTrigger>
 						<SelectContent>
+							<SelectItem value='all'>Все марки</SelectItem>
 							<SelectItem value='audi'>Audi</SelectItem>
 							<SelectItem value='bmw'>BMW</SelectItem>
 							<SelectItem value='mercedes'>Mercedes</SelectItem>
@@ -139,10 +152,20 @@ export function SearchForm({ onSearch }: SearchFormProps) {
 							<SelectValue placeholder='Выбрать модель' />
 						</SelectTrigger>
 						<SelectContent>
-							<SelectItem value='model3'>Model 3</SelectItem>
-							<SelectItem value='modely'>Model Y</SelectItem>
-							<SelectItem value='models'>Model S</SelectItem>
-							<SelectItem value='modelx'>Model X</SelectItem>
+							<SelectItem value='all'>Все модели</SelectItem>
+							{filters.brand === 'audi' && (
+								<>
+									<SelectItem value='a3'>A3</SelectItem>
+									<SelectItem value='tt'>TT</SelectItem>
+									<SelectItem value='q5'>Q5</SelectItem>
+								</>
+							)}
+							{filters.brand === 'mercedes' && (
+								<>
+									<SelectItem value='c-class'>C-Class</SelectItem>
+									<SelectItem value='s-class'>S-Class</SelectItem>
+								</>
+							)}
 						</SelectContent>
 					</Select>
 				</div>
