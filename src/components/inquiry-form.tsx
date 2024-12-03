@@ -37,12 +37,12 @@ export function InquiryForm({ id, carPrice }: { id: string; carPrice: number }) 
 
   useEffect(() => {
     fetchCurrentStatus();
-  }, [id]);
+  }, [id, ]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
+  
     try {
       if (inquiryStatus.status === 'New') {
         await notionClient.updateCarInquiryStatus(inquiryStatus.pageId!, 'CallMe');
@@ -52,7 +52,7 @@ export function InquiryForm({ id, carPrice }: { id: string; carPrice: number }) 
         setInquiryStatus({ ...inquiryStatus, status: 'CallMe' });
       } else if (!inquiryStatus.status) {
         const telegramUserData = JSON.parse(localStorage.getItem('telegramUser') || '{}');
-        const response = await notionClient.createCarInquiry({
+        await notionClient.createCarInquiry({
           name: telegramUserData.username,
           telegramId: telegramUserData.id,
           orderCarId: id,
@@ -62,14 +62,19 @@ export function InquiryForm({ id, carPrice }: { id: string; carPrice: number }) 
           finalPrice: '-',
         });
         
-        if (response.ok) {
-          await fetchCurrentStatus();
+        // Force immediate status check after creation
+        const inquiries = await notionClient.getCarInquiriesByTelegramId(telegramUserData.id);
+        const currentInquiry = inquiries.find((inquiry: CarInquiry) => 
+          inquiry.orderCarId === id && inquiry.status !== 'Canceled'
+        );
+        if (currentInquiry) {
+          setInquiryStatus({ status: currentInquiry.status, pageId: currentInquiry.pageId });
         }
       }
     } catch (error) {
       console.error('Order submission error:', error);
     }
-
+  
     setIsLoading(false);
   };
 
