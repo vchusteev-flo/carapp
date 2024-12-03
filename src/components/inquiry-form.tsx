@@ -61,11 +61,9 @@ export function InquiryForm({
 
 		const response = await notionClient.createCarInquiry(inquiryData)
     setTimeout(() => {
-      if (response.ok) {
-        setCarOrdered(true);
-      }
+      setCarOrdered(true);
       setIsLoading(false);
-    }, 2000);
+    }, 500);
 	}
 
 	return (
