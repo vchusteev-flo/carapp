@@ -15,6 +15,7 @@ interface CarInquiry {
 
 export function InquiryForm({ id, carPrice }: { id: string, carPrice: number })  {
   const [carOrdered, setCarOrdered] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const checkIfCarOrdered = async () => {
@@ -32,6 +33,7 @@ export function InquiryForm({ id, carPrice }: { id: string, carPrice: number }) 
   }, [id]);
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     const telegramUserData = JSON.parse(localStorage.getItem('telegramUser') || '{}')
     
     const inquiryData = {
@@ -44,10 +46,11 @@ export function InquiryForm({ id, carPrice }: { id: string, carPrice: number }) 
       finalPrice: '-',
     };
     
-    const response = await notionClient.createCarInquiry(inquiryData)
+    const response = await notionClient.createCarInquiry(inquiryData);
     if (response.ok) {
-      setCarOrdered(true)
+      setCarOrdered(true);
     }
+    setIsLoading(true);
   }
 
   return (
@@ -55,10 +58,10 @@ export function InquiryForm({ id, carPrice }: { id: string, carPrice: number }) 
       <input type="hidden" name="id" value={id} />
       <Button 
         type="submit" 
-        disabled={carOrdered} 
-        className={`px-16 py-8 ${!carOrdered ? `bg-orange-500`: `bg-green-500`} ${!carOrdered ? `text-white`: `text-black`} font-medium rounded-lg shadow-md hover:shadow-lg`}
+        disabled={carOrdered || isLoading} 
+        className={`px-16 py-8 transition-colors duration-300 ${isLoading ? 'bg-green-500' : !carOrdered ? 'bg-orange-500' : 'bg-green-500'} ${!carOrdered ? 'text-white' : 'text-black'} font-medium rounded-lg shadow-md hover:shadow-lg`}
       >
-        {!carOrdered ? `Связаться  с нами` : `Запрос на обратную связь отправлен`}
+        {isLoading ? 'Отправка запроса...' : !carOrdered ? 'Связаться с нами' : 'Запрос на обратную связь отправлен'}
       </Button>
     </form>
   )

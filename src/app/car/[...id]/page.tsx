@@ -176,7 +176,7 @@ export default async function CarDetailsPage({
 
 							<p>
 								Стоимость под ключ:{' '}
-								{id[1] ? `${carResponse.finalPrice}$` : 'Пока не расчитана'}
+								{id[1] ? `${carResponse.finalPrice}` : 'Пока не расчитана'}
 							</p>
 						</div>
 						{id[1] && carResponse.comments ? (
