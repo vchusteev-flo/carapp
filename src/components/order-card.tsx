@@ -23,7 +23,6 @@ export function OrderCard({ order }: OrderCardProps) {
       <Card className="overflow-hidden">
         <CardContent className="p-0">
           <div className="flex gap-4">
-            <p>{`/car/${order.orderCarId}/${order.ID}`}</p>
             <div className="relative w-32 h-32">
               <Image
                 src={order.image}
