@@ -66,6 +66,18 @@ export default function LoginPage() {
 	const userData = telegram?.initDataUnsafe?.user
 	const [orders, setOrders] = useState<Order[] | []>([])
 
+	const orderWithCarDetails = orders?.map(order => {
+		const matchingCar = allCars.find(
+			car => car.id.toString() === order.orderCarId
+		)
+		return {
+			...order,
+			image: matchingCar?.image || '',
+			make: matchingCar?.make || '',
+			model: matchingCar?.name || '',
+		}
+	})
+
 	useEffect(() => {
 		const fetchOrders = async () => {
 			const response = await notionClient.getCarInquiriesByTelegramId(
@@ -88,17 +100,9 @@ export default function LoginPage() {
 				<h1 className='text-2xl font-bold mb-8'>Заказы</h1>
 				{/* <p>{JSON.stringify(orders, null, 2)}</p> */}
 				<div className='flex flex-col gap-4'>
-					{orders?.length > 0 &&
-						orders.map((order, index) => (
-							<OrderCard
-								key={order.ID}
-								order={{
-									...order,
-									image: allCars[index].image,
-									make: allCars[index].make,
-									model: allCars[index].name,
-								}}
-							/>
+					{orderWithCarDetails?.length > 0 &&
+						orderWithCarDetails.map(order => (
+							<OrderCard key={order.ID} order={order} />
 						))}
 					{(!orders || orders.length === 0) && (
 						<p className='text-center'>У вас пока нет заказов</p>
