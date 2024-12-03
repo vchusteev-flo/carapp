@@ -70,23 +70,15 @@ export function InquiryForm({
 	}
 
 	return (
-		<form action={handleSubmit}>
-			<input type='hidden' name='id' value={id} />
-			<Button
-				type='submit'
-				disabled={carOrdered || isLoading}
-				className={`px-16 py-8 ${
-					!carOrdered && !isLoading ? 'bg-orange-500' : 'bg-green-500'
-				} ${
-					!carOrdered && !isLoading ? 'text-white' : 'text-black'
-				} font-medium rounded-lg shadow-md hover:shadow-lg`}
-			>
-				{isLoading
-					? 'Отправка запроса...'
-					: !carOrdered
-					? 'Связаться с нами'
-					: 'Запрос на обратную связь отправлен'}
-			</Button>
-		</form>
+    <form action={handleSubmit}>
+      <input type="hidden" name="id" value={id} />
+      <Button 
+        type="submit" 
+        disabled={carOrdered || isLoading} 
+        className={`px-16 py-8 transition-colors duration-300 ${(!carOrdered && !isLoading) ? 'bg-orange-500 text-white' : 'bg-green-500 text-black'} font-medium rounded-lg shadow-md hover:shadow-lg`}
+      >
+        {isLoading ? 'Отправка запроса...' : !carOrdered ? 'Связаться с нами' : 'Запрос на обратную связь отправлен'}
+      </Button>
+    </form>
 	)
 }
