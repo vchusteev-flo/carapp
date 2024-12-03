@@ -67,7 +67,7 @@ export async function PATCH(request, { params }) {
   });
 
   const { status } = await request.json();
-  const { pageId } = params
+  const { pageId } = await params
   // const { pageId, status } = await params;
   console.log(pageId, status, '>>> pageId status')
   console.log(await params, '>>> await params') 
