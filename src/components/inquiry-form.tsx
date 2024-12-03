@@ -73,15 +73,6 @@ export function InquiryForm({ id, carPrice }: { id: string; carPrice: number }) 
     }
   };
 
-  let buttonText;
-  if (carOrdered) {
-    buttonText = !hasButtonBeenClicked
-      ? 'Запрос на обратную связь отправлен'
-      : 'Связаться с нами';
-  } else {
-    buttonText = !hasButtonBeenClicked ? 'Запрос на расчет отправлен' : 'Сделать расчет';
-  }
-
   return (
     <form onSubmit={handleSubmit}>
       <input type="hidden" name="id" value={id} />
