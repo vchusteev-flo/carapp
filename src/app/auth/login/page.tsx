@@ -70,6 +70,8 @@ export default function LoginPage() {
     const fetchOrders = async () => {
       const response = await notionClient.getCarInquiriesByTelegramId(String(userData!.id))
       setOrders(response)
+      console.log(response)
+      console.log(orders)
     }
     fetchOrders()
   }, [])

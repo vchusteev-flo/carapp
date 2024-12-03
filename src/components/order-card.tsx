@@ -24,7 +24,6 @@ export function OrderCard({ order }: OrderCardProps) {
         <CardContent className="p-0">
           <div className="flex gap-4">
             <p>{`/car/${order.OrderCarId}/${order.ID}`}</p>
-            <p>`/car/${order.OrderCarId}/${order.ID}</p>
             <div className="relative w-32 h-32">
               <Image
                 src={order.image}
