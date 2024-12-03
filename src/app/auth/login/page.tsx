@@ -70,8 +70,6 @@ export default function LoginPage() {
     const fetchOrders = async () => {
       const response = await notionClient.getCarInquiriesByTelegramId(String(userData!.id))
       setOrders(response)
-      console.log(response)
-      console.log(orders)
     }
     fetchOrders()
   }, [])
@@ -86,6 +84,7 @@ export default function LoginPage() {
 
       <div className="container max-w-md mx-auto px-4">
         <h1 className="text-2xl font-bold mb-8">Заказы</h1>
+        <p>{JSON.stringify(orders, null, 2)}</p>
         <div className="flex flex-col gap-4">
           {orders.map((order, index) => (
             <OrderCard key={order.ID} order={{...order, image: allCars[index].image, make: allCars[index].make, model: allCars[index].name} } />
