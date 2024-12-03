@@ -105,12 +105,12 @@ export function InquiryForm({ id, carPrice }: { id: string; carPrice: number }) 
   const buttonConfig = getButtonConfig();
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className='w-full' onSubmit={handleSubmit}>
       <input type="hidden" name="id" value={id} />
       <Button 
         type="submit" 
         disabled={buttonConfig.disabled || isLoading}
-        className={`px-16 py-8 ${buttonConfig.color} ${buttonConfig.color === 'bg-green-500' ? 'text-black' : 'text-white'} font-medium rounded-lg shadow-md hover:shadow-lg`}
+        className={`min-w-full px-16 py-8 ${buttonConfig.color} ${buttonConfig.color === 'bg-green-500' ? 'text-black' : 'text-white'} font-medium rounded-lg shadow-md hover:shadow-lg`}
       >
         {isLoading ? 'Отправка запроса...' : buttonConfig.text}
       </Button>
