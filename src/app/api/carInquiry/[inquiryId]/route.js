@@ -67,12 +67,12 @@ export async function PATCH(request, { params }) {
   });
 
   const { status } = await request.json();
-  const { pageId } = await params
+  const { inquiryId } = await params
   // const { pageId, status } = await params;
-  console.log(pageId, status, '>>> pageId status')
+  console.log(inquiryId, status, '>>> pageId status')
   console.log(await params, '>>> await params') 
   try {
-    await updateCarInquiryStatus(pageId, status);
+    await updateCarInquiryStatus(inquiryId, status);
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
       headers,
