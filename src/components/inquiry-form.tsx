@@ -42,17 +42,21 @@ export function InquiryForm({ id, carPrice }: { id: string; carPrice: number }) 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    console.log('Submit started, current status:', inquiryStatus);
   
     try {
       if (inquiryStatus.status === 'New') {
+        console.log('Updating New to CallMe');
         await notionClient.updateCarInquiryStatus(inquiryStatus.pageId!, 'CallMe');
         setInquiryStatus({ ...inquiryStatus, status: 'CallMe' });
       } else if (inquiryStatus.status === 'Offer') {
+        console.log('Updating Offer to CallMe');
         await notionClient.updateCarInquiryStatus(inquiryStatus.pageId!, 'CallMe');
         setInquiryStatus({ ...inquiryStatus, status: 'CallMe' });
       } else if (!inquiryStatus.status) {
+        console.log('Creating new inquiry');
         const telegramUserData = JSON.parse(localStorage.getItem('telegramUser') || '{}');
-        await notionClient.createCarInquiry({
+        const createResponse = await notionClient.createCarInquiry({
           name: telegramUserData.username,
           telegramId: telegramUserData.id,
           orderCarId: id,
@@ -61,14 +65,19 @@ export function InquiryForm({ id, carPrice }: { id: string; carPrice: number }) 
           price: carPrice,
           finalPrice: '-',
         });
+        console.log('Create response:', createResponse);
         
-        // Force immediate status check after creation
         const inquiries = await notionClient.getCarInquiriesByTelegramId(telegramUserData.id);
+        console.log('Fetched inquiries:', inquiries);
+        
         const currentInquiry = inquiries.find((inquiry: CarInquiry) => 
           inquiry.orderCarId === id && inquiry.status !== 'Canceled'
         );
+        console.log('Found current inquiry:', currentInquiry);
+        
         if (currentInquiry) {
           setInquiryStatus({ status: currentInquiry.status, pageId: currentInquiry.pageId });
+          console.log('Updated status to:', currentInquiry.status);
         }
       }
     } catch (error) {
@@ -76,7 +85,9 @@ export function InquiryForm({ id, carPrice }: { id: string; carPrice: number }) 
     }
   
     setIsLoading(false);
+    console.log('Final status:', inquiryStatus);
   };
+  
 
   const getButtonConfig = () => {
     switch (inquiryStatus.status) {
