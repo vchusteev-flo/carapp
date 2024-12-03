@@ -127,12 +127,11 @@ export default async function CarDetailsPage({
 			location: 'Berlin, Germany'
 		}
 	]
-	let car;
 
-	if (!!id[0]) {
-		car = cars.find(car => car!.id === id[0]);
-	} else {
-		car = cars[0];
+	const car = id[0] ? cars.find(c => c.id === id[0]) : cars[0];
+
+	if (!car) {
+		return <div>Car not found</div>
 	}
 
 	return (
