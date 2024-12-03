@@ -184,7 +184,7 @@ export default async function CarDetailsPage({
 								<h2 className='text-xl font-semibold mb-2'>
 									Комментарий продавца услуги:
 								</h2>
-								<p className='text-muted-foreground'>{carResponse.comments}</p>
+								<p className=''>{carResponse.comments}</p>
 							</div>
 						) : (
 							[]

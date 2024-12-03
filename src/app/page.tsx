@@ -72,14 +72,14 @@ export default function Home() {
 		}
 
 		// Filter by brand
-		if (filters.brand) {
+		if (filters.brand && filters.brand !== 'all') {
 			filtered = filtered.filter(car =>
 				car.name.toLowerCase().includes(filters.brand.toLowerCase())
 			)
 		}
 
 		// Filter by model
-		if (filters.model) {
+		if (filters.model && filters.model !== 'all') {
 			filtered = filtered.filter(car =>
 				car.name.toLowerCase().includes(filters.model.toLowerCase())
 			)
@@ -222,7 +222,7 @@ export default function Home() {
 					<div className='mb-4 flex items-center justify-between'>
 						{filteredCars.length > 0 ? (
 							<h2 className='text-xl text-white font-semibold'>
-								Рекомендуемое
+								Результаты
 							</h2>
 						) : (
 							<h2 className='text-xl text-white font-semibold'>

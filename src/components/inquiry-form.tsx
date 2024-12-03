@@ -75,7 +75,7 @@ export function InquiryForm({
         type="submit" 
         className={`px-16 py-8 transition-colors duration-300 ${(!carOrdered && !isLoading) ? 'bg-orange-500 text-white' : 'bg-green-500 text-black'} font-medium rounded-lg`}
       >
-        {isLoading ? 'Запрос на обратную связь отправлен' : !carOrdered ? 'Связаться с нами' : 'Запрос на обратную связь отправлен'}
+        {isLoading ? 'Запрос на обратную связь отправлен' : !carOrdered ? 'Сделать расчет' : 'Запрос на обратную связь отправлен'}
       </Button>
     </form>
 	)
