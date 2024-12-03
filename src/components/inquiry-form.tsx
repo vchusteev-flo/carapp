@@ -58,9 +58,7 @@ export function InquiryForm({ id, carPrice }: { id: string; carPrice: number }) 
         price: carPrice,
         finalPrice: '-',
       });
-      if (response.ok) {
-        setInquiryStatus({ status: 'New', pageId: response.id });
-      }
+      setInquiryStatus({ status: 'New', pageId: response.id });
     }
     
     setIsLoading(false);
