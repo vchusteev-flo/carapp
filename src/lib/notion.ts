@@ -43,6 +43,7 @@ interface CarInquiry {
   status: string;
   comments: string;
   price: number;
+  finalPrice: string;
 }
 
 export const notionClient = {

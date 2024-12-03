@@ -2,39 +2,63 @@
 
 import { Button } from '@/components/ui/button';
 import { notionClient } from '@/lib/notion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+interface CarInquiry {
+  name: string
+  telegramId: number
+  orderCarId: string
+  status: string
+  comments: string
+  price: number
+  finalPrice: string
+}
 
 export function InquiryForm({ id, carPrice }: { id: string, carPrice: number })  {
-  const [isOk, setIsOk] = useState(false);
+  const [carOrdered, setCarOrdered] = useState(false);
+
+  useEffect(() => {
+    const checkIfCarOrdered = async () => {
+      const telegramUserData = JSON.parse(localStorage.getItem('telegramUser') || '{}');
+      if (telegramUserData.id) {
+        const inquiries = await notionClient.getCarInquiriesByTelegramId(telegramUserData.id);
+        const hasActiveOrder = inquiries.some((inquiry: CarInquiry) => 
+          inquiry.orderCarId === id && inquiry.status !== 'Canceled'
+        );
+        setCarOrdered(hasActiveOrder);
+      }
+    };
+    
+    checkIfCarOrdered();
+  }, [id]);
+
   const handleSubmit = async () => {
     const telegramUserData = JSON.parse(localStorage.getItem('telegramUser') || '{}')
     
     const inquiryData = {
       name: telegramUserData.username,
       telegramId: telegramUserData.id,
-      orderCarId: "3",
+      orderCarId: id,
       status: "New",
       comments: " ",
       price: carPrice,
-      finalPrice: ' ',
+      finalPrice: '-',
     };
     
     const response = await notionClient.createCarInquiry(inquiryData)
     if (response.ok) {
-      setIsOk(true)
+      setCarOrdered(true)
     }
-
-    // await notionClient.createCarInquiry(inquiryData)
-    // redirect('/confirmation/' + id)
-    console.log('ok')
-    console.log(inquiryData)
   }
 
   return (
     <form action={handleSubmit}>
       <input type="hidden" name="id" value={id} />
-      <Button type="submit" disabled={isOk} className={`px-12 py-8 ${isOk ? `bg-orange-500`: `bg-green-500`} ${isOk ? `text-white`: `text-black`} font-medium rounded-lg shadow-md hover:shadow-lg`}>
-        {isOk? `Связаться  с нами` : `Запрос на обратную связь отправлен`}
+      <Button 
+        type="submit" 
+        disabled={carOrdered} 
+        className={`px-16 py-8 ${!carOrdered ? `bg-orange-500`: `bg-green-500`} ${!carOrdered ? `text-white`: `text-black`} font-medium rounded-lg shadow-md hover:shadow-lg`}
+      >
+        {!carOrdered ? `Связаться  с нами` : `Запрос на обратную связь отправлен`}
       </Button>
     </form>
   )
