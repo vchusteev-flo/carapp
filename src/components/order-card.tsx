@@ -4,7 +4,7 @@ import Link from "next/link";
 
 interface OrderCardProps {
   order: {
-    OrderCarId?: number
+    orderCarId?: number
     ID: string,
     image: string
     make?: string
@@ -19,11 +19,11 @@ export function OrderCard({ order }: OrderCardProps) {
   console.log(order, 'order');
   console.log(order.ID, 'order.ID');
   return (
-    <Link href={`/car/${order.OrderCarId}/${order.ID}`}>
+    <Link href={`/car/${order.orderCarId}/${order.ID}`}>
       <Card className="overflow-hidden">
         <CardContent className="p-0">
           <div className="flex gap-4">
-            <p>{`/car/${order.OrderCarId}/${order.ID}`}</p>
+            <p>{`/car/${order.orderCarId}/${order.ID}`}</p>
             <div className="relative w-32 h-32">
               <Image
                 src={order.image}
