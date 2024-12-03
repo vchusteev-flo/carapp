@@ -20,6 +20,7 @@ export function InquiryForm({
 	id: string
 	carPrice: number
 }) {
+  const [clickFirstly, setclickFirstly] = useState(false);
 	const [carOrdered, setCarOrdered] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -64,18 +65,25 @@ export function InquiryForm({
       if (response) {
         setCarOrdered(true);
       }
-      setIsLoading(false);
-    }, 500);
+    }, 1000);
 	}
+  let buttonText;
+  if (carOrdered) {
+    buttonText = clickFirstly ? 'Связаться с нами' : 'Запрос на обратную связь отправлен'
+  } else {
+    buttonText = clickFirstly ? 'Сделать расчет': 'Запрос на расчет отправлен';
+  }
+  
 
 	return (
     <form action={handleSubmit}>
       <input type="hidden" name="id" value={id} />
       <Button 
         type="submit" 
-        className={`px-16 py-8 transition-colors duration-300 ${(!carOrdered && !isLoading) ? 'bg-orange-500 text-white' : 'bg-green-500 text-black'} font-medium rounded-lg`}
+        className={`px-16 py-8 transition-colors duration-300 ${!isLoading ?'bg-orange-500 text-white': 'bg-green-500 text-black'} font-medium rounded-lg`}
+        onClick={() => setclickFirstly(true)}
       >
-        {isLoading ? 'Запрос на обратную связь отправлен' : !carOrdered ? 'Связаться с нами' : 'Запрос на обратную связь отправлен'}
+        {buttonText}
       </Button>
     </form>
 	)
